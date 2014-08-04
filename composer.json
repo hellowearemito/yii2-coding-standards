@@ -1,5 +1,5 @@
 {
-	"name": "yiisoft/yii2-coding-standards",
+	"name": "mito/yii2-coding-standards",
 	"description": "Yii PHP Framework Version 2 - Coding standard tools",
 	"keywords": ["yii", "framework", "codesniffer"],
 	"homepage": "http://www.yiiframework.com/",
@@ -40,13 +40,6 @@
 			"role": "Core framework development"
 		}
 	],
-	"support": {
-		"issues": "https://github.com/yiisoft/yii2/issues?state=open",
-		"forum": "http://www.yiiframework.com/forum/",
-		"wiki": "http://www.yiiframework.com/wiki/",
-		"irc": "irc://irc.freenode.net/yii",
-		"source": "https://github.com/yiisoft/yii2"
-	},
 	"require": {
 		"php": ">=5.4.0",
 		"squizlabs/php_codesniffer": "1.*"
