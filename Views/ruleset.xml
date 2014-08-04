@@ -24,6 +24,10 @@
 		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
 
 		<exclude name="Squiz.WhiteSpace.ScopeClosingBrace"/>
+
+		<exclude name="PSR2.Namespaces.UseDeclaration"/>
+
+		<exclude name="Generic.Formatting.DisallowMultipleStatements"/>
 	</rule>
 
 	<!-- Property declaration rules. -->
