@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset name="Yii2">
+<ruleset name="Views">
 	<description>Yii 2 Web Application Framework Coding Standard</description>
 
 	<rule ref="PSR2">
@@ -18,6 +18,12 @@
 		<exclude name="PSR2.ControlStructures.SwitchDeclaration"/>
 
 		<exclude name="PSR1.Files.SideEffects"/>
+
+		<exclude name="Zend.Files.ClosingTag"/>
+
+		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
+
+		<exclude name="Squiz.WhiteSpace.ScopeClosingBrace"/>
 	</rule>
 
 	<!-- Property declaration rules. -->
@@ -30,7 +36,7 @@
 	<!-- TODO: -->
 
 	<!-- ... other Yii2 specific rules. -->
-	<rule ref="Yii2.PHP.DisallowLongArraySyntax"/>
+	<rule ref="Views.PHP.DisallowLongArraySyntax"/>
 
 	<exclude-pattern>*/i18n/data/*</exclude-pattern>
 	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
