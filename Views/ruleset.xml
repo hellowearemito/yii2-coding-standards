@@ -17,6 +17,10 @@
 		<!-- CASE keyword must be indented 4 spaces from SWITCH keyword. -->
 		<exclude name="PSR2.ControlStructures.SwitchDeclaration"/>
 
+		<!-- Disable checking because of alternative syntax -->
+		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis"/>
+		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword"/>
+
 		<exclude name="PSR1.Files.SideEffects"/>
 
 		<exclude name="Zend.Files.ClosingTag"/>
