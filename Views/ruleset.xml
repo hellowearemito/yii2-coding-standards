@@ -24,6 +24,7 @@
 		<exclude name="PSR1.Files.SideEffects"/>
 
 		<exclude name="Zend.Files.ClosingTag"/>
+		<exclude name="PSR2.Files.ClosingTag"/>
 
 		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
 
