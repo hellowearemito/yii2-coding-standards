@@ -30,6 +30,12 @@
 	<!-- ... other Yii2 specific rules. -->
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
+	<!-- <rule ref="Squiz.Arrays.ArrayDeclaration"/> -->
+	<!-- Ensure that there are no spaces around square brackets. -->
+	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+	<!-- Ensure there is no whitespace before a semicolon. -->
+	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
 	<exclude-pattern>*/i18n/data/*</exclude-pattern>
 	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
 	<exclude-pattern>*/requirements/*</exclude-pattern>
