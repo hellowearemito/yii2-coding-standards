@@ -3,6 +3,11 @@ image: gitlab-registry.mito.hu/ci-images/php-node
 before_script:
     - composer install --prefer-dist
 
+cache:
+    paths:
+        - vendor
+    key: "$CI_BUILD_REF_NAME"
+
 test:
     stage: test
     tags:
