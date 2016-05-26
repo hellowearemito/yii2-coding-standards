@@ -878,25 +878,35 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 }
 
                 $valueStart = ($arrowStart + 3);
+
             } else {
                 $valueStart = $indicesStart;
             }
 
 
             if ($tokens[$index['value']]['column'] !== $valueStart) {
-                $expected = ($valueStart - ($tokens[$index['arrow']]['length'] + $tokens[$index['arrow']]['column']));
-                $found    = ($tokens[$index['value']]['column'] - ($tokens[$index['arrow']]['length'] + $tokens[$index['arrow']]['column']));
+                if (isset($index['arrow']) === true) {
+                    $verb = 'aligned';
+                    $expected = ($valueStart - ($tokens[$index['arrow']]['length'] + $tokens[$index['arrow']]['column']));
+                    $found    = ($tokens[$index['value']]['column'] - ($tokens[$index['arrow']]['length'] + $tokens[$index['arrow']]['column']));
+                    $errorToken = $index['arrow'];
+                } else {
+                    $verb = 'indented';
+                    $expected = ($indicesStart - 1);
+                    $found = ($tokens[$index['value']]['column'] - 1);
+                    $errorToken = $index['value'];
+                }
                 if ($found < 0) {
                     $found = 'newline';
                 }
 
-                $error = 'Array value not aligned correctly; expected %s space(s) but found %s';
+                $error = "Array value not $verb correctly; expected %s space(s) but found %s";
                 $data  = array(
                           $expected,
                           $found,
                          );
 
-                $fix = $phpcsFile->addFixableError($error, $index['arrow'], 'ValueNotAligned', $data);
+                $fix = $phpcsFile->addFixableError($error, $errorToken, 'ValueNotAligned', $data);
                 if ($fix === true) {
                     if ($found === 'newline') {
                         $prev = $phpcsFile->findPrevious(T_WHITESPACE, ($index['value'] - 1), null, true);
