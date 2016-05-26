@@ -2,43 +2,7 @@
 <ruleset name="Others">
 	<description>Yii 2 Web Application Framework Coding Standard</description>
 
-	<rule ref="PSR2">
-		<!-- Property names MUST start with an initial underscore if they are private. -->
-		<exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
-
-		<!-- Opening parenthesis of a multi-line function call must be the last content on the line. -->
-		<!-- Closing parenthesis of a multi-line function call must be on a line by itself. -->
-		<!-- Only one argument is allowed per line in a multi-line function call. -->
-		<!-- <exclude name="PEAR.Functions.FunctionCallSignature"/> -->
-
-		<!-- We don't have line length (line width) limits. -->
-		<exclude name="Generic.Files.LineLength"/>
-
-		<!-- CASE keyword must be indented 4 spaces from SWITCH keyword. -->
-		<!-- <exclude name="PSR2.ControlStructures.SwitchDeclaration"/> -->
-
+	<rule ref="../Application/ruleset.xml">
 		<exclude name="PSR1.Files.SideEffects"/>
-
-		<exclude name="PSR1.Classes.ClassDeclaration"/>
-
-		<exclude name="Squiz.Classes.ValidClassName"/>
 	</rule>
-
-	<!-- Property declaration rules. -->
-	<!-- TODO: -->
-
-	<!-- Function call signature. -->
-	<!-- TODO: -->
-
-	<!-- Switch declaration. -->
-	<!-- TODO: -->
-
-	<!-- ... other Yii2 specific rules. -->
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
-
-	<exclude-pattern>*/i18n/data/*</exclude-pattern>
-	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
-	<exclude-pattern>*/requirements/*</exclude-pattern>
-
-	<exclude-pattern>ProfileTarget.php</exclude-pattern>
 </ruleset>
