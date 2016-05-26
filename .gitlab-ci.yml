@@ -1,0 +1,12 @@
+image: gitlab-registry.mito.hu/ci-images/php-node
+
+before_script:
+    - composer install --prefer-dist
+
+test:
+    stage: test
+    tags:
+        - docker
+    script:
+        - ./vendor/bin/phpunit
+
