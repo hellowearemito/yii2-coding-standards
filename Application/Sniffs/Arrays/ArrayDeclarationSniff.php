@@ -17,8 +17,9 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
     /**
      * Whether to align multi-line arrays.
+     * if null, alignment will not be checked.
      *
-     * @var bool
+     * @var bool|null
      */
     public $alignMultiLine = false;
 
@@ -850,13 +851,15 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     continue;
                 }
 
-                if ($this->alignMultiLine) {
+                if ($this->alignMultiLine === true) {
                     $arrowStart = ($indicesStart + $maxLength + 1);
-                } else {
+                } elseif ($this->alignMultiLine === false) {
                     $arrowStart = ((strlen($index['index_content']) + $tokens[$index['index']]['column']) + 1);
+                } else {
+                    $arrowStart = null;
                 }
 
-                if ($tokens[$index['arrow']]['column'] !== $arrowStart) {
+                if ($arrowStart !== null && $tokens[$index['arrow']]['column'] !== $arrowStart) {
                     $expected = ($arrowStart - (strlen($index['index_content']) + $tokens[$index['index']]['column']));
                     $found    = ($tokens[$index['arrow']]['column'] - (strlen($index['index_content']) + $tokens[$index['index']]['column']));
                     $error    = 'Array double arrow not aligned correctly; expected %s space(s) but found %s';
@@ -877,14 +880,18 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     continue;
                 }
 
-                $valueStart = ($arrowStart + 3);
+                if ($arrowStart === null) {
+                    $valueStart = null;
+                } else {
+                    $valueStart = ($arrowStart + 3);
+                }
 
             } else {
                 $valueStart = $indicesStart;
             }
 
 
-            if ($tokens[$index['value']]['column'] !== $valueStart) {
+            if ($valueStart !== null && $tokens[$index['value']]['column'] !== $valueStart) {
                 if (isset($index['arrow']) === true) {
                     $verb = 'aligned';
                     $expected = ($valueStart - ($tokens[$index['arrow']]['length'] + $tokens[$index['arrow']]['column']));
