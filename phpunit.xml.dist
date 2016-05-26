@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit>
+    <testsuites>
+        <testsuite name="Mito Yii 2 Coding Standards Test Suite">
+            <file>tests/AllTests.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

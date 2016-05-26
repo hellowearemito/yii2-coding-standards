@@ -281,7 +281,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     }
                 }//end if
 
-                /*if ($tokens[($comma - 1)]['code'] === T_WHITESPACE) {
+                if ($tokens[($comma - 1)]['code'] === T_WHITESPACE) {
                     $content     = $tokens[($comma - 2)]['content'];
                     $spaceLength = $tokens[($comma - 1)]['length'];
                     $error       = 'Expected 0 spaces between "%s" and comma; %s found';
@@ -294,7 +294,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     if ($fix === true) {
                         $phpcsFile->fixer->replaceToken(($comma - 1), '');
                     }
-                }*/
+                }
             }//end foreach
         }//end if
 
@@ -496,7 +496,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 }*/
 
                 if ($tokens[$lastToken]['code'] !== T_DOUBLE_ARROW) {
-                    if ($tokens[($nextToken - 1)]['code'] === T_WHITESPACE) {
+                    /*if ($tokens[($nextToken - 1)]['code'] === T_WHITESPACE) {
                         $content = $tokens[($nextToken - 2)]['content'];
                         if ($tokens[($nextToken - 1)]['content'] === $phpcsFile->eolChar) {
                             $spaceLength = 'newline';
@@ -514,7 +514,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                         if ($fix === true) {
                             $phpcsFile->fixer->replaceToken(($nextToken - 1), '');
                         }
-                    }
+                    }*/
 
                     $valueContent = $phpcsFile->findNext(
                         PHP_CodeSniffer_Tokens::$emptyTokens,
@@ -730,6 +730,24 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 $lastValueLine = $tokens[$value['value']]['line'];
             }//end foreach
         }*/ //end if
+
+        if (empty($indices) === false) {
+            $count     = count($indices);
+            $lastIndex = $indices[($count - 1)]['value'];
+        } else {
+            $lastIndex = $arrayStart;
+
+            $trailingContent = $phpcsFile->findNext(
+                PHP_CodeSniffer_Tokens::$emptyTokens,
+                ($arrayStart + 1),
+                $arrayEnd,
+                true
+            );
+
+            if ($trailingContent !== false) {
+                $indices[] = array('value' => $trailingContent);
+            }
+        }
 
         if (empty($indices) === false) {
             $count     = count($indices);
@@ -976,7 +994,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 }
             }//end for
 
-            if ($idx !== count($indices) - 1 && ($nextComma === false || ($tokens[$nextComma]['line'] !== $valueLine))) {
+            if ($idx !== count($indices) - 1 && ($nextComma === false/* || ($tokens[$nextComma]['line'] !== $valueLine)*/)) {
                 $error = 'Each line in an array declaration must end in a comma';
                 $fix   = $phpcsFile->addFixableError($error, $index['value'], 'NoComma');
 
@@ -995,7 +1013,11 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             // Check that there is no space before the comma.
             if ($nextComma !== false && $tokens[($nextComma - 1)]['code'] === T_WHITESPACE) {
                 $content     = $tokens[($nextComma - 2)]['content'];
-                $spaceLength = $tokens[($nextComma - 1)]['length'];
+                if ($tokens[($nextComma - 1)]['content'] === $phpcsFile->eolChar) {
+                    $spaceLength = 'newline';
+                } else {
+                    $spaceLength = $tokens[($nextComma - 1)]['length'];
+                }
                 $error       = 'Expected 0 spaces between "%s" and comma; %s found';
                 $data        = array(
                                 $content,
