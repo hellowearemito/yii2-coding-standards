@@ -43,5 +43,8 @@
 	"require": {
 		"php": ">=5.4.0",
 		"squizlabs/php_codesniffer": "*"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^5.3"
 	}
 }
