@@ -341,3 +341,19 @@ $single = array(
 $single = array(
     'key' => 'value'
 );
+
+$multi = array(
+    array(
+        'a', 'b'
+    ), array(
+        'c', 'd'
+    )
+);
+
+$multi = array(
+    array(
+        'a' => 'a', 'b' => 'b'
+    ), array(
+        'c' => 'c', 'd' => 'd'
+    )
+);

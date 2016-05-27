@@ -535,6 +535,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     // }
 
                     $currentEntry['value'] = $valueContent;
+                    $currentEntry['comma'] = $nextToken;
 
                     $indices[]  = $currentEntry;
                     //$singleUsed = true;
@@ -733,7 +734,23 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
         if (empty($indices) === false) {
             $count     = count($indices);
-            $lastIndex = $indices[($count - 1)]['value'];
+            // only add trailing content if last element was added because we found a comma.
+            // if it was added because we found a double arrow, then the trailing content
+            // is already in indices.
+            if (isset($indices[($count - 1)]['comma']) !== false) {
+                $lastComma = $indices[($count - 1)]['comma'];
+
+                $trailingContent = $phpcsFile->findNext(
+                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    ($lastComma + 1),
+                    $arrayEnd,
+                    true
+                );
+
+                if ($trailingContent !== false && $tokens[$trailingContent]['code'] !== T_COMMA) {
+                    $indices[] = array('value' => $trailingContent);
+                }
+            }
         } else {
             $lastIndex = $arrayStart;
 
@@ -775,6 +792,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
         $indicesStart    = $arrayIndent + $this->indent + 1;
         $elementLine     = $tokens[$stackPtr]['line'];
+        $elementEndLine  = $elementLine;
         $lastElementLine = null;
         foreach ($indices as $idx => $index) {
             if (isset($index['index']) === false) {
@@ -795,9 +813,94 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 }
             }
 
-            $lastElementLine = $elementLine;
+
+            // Check each line ends in a comma.
+            $valueLine      = $tokens[$index['value']]['line'];
+            $valueStartLine = $valueLine;
+            $nextComma      = false;
+            for ($i = $index['value']; $i < $arrayEnd; $i++) {
+                // Skip bracketed statements, like function calls.
+                if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS) {
+                    $i         = $tokens[$i]['parenthesis_closer'];
+                    $valueLine = $tokens[$i]['line'];
+                    continue;
+                }
+
+                if ($tokens[$i]['code'] === T_ARRAY) {
+                    $i         = $tokens[$tokens[$i]['parenthesis_opener']]['parenthesis_closer'];
+                    $valueLine = $tokens[$i]['line'];
+                    continue;
+                }
+
+                // Skip to the end of multi-line strings.
+                if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
+                    $i = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
+                    $i--;
+                    $valueLine = $tokens[$i]['line'];
+                    continue;
+                }
+
+                if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+                    $i         = $tokens[$i]['bracket_closer'];
+                    $valueLine = $tokens[$i]['line'];
+                    continue;
+                }
+
+                if ($tokens[$i]['code'] === T_CLOSURE) {
+                    $i         = $tokens[$i]['scope_closer'];
+                    $valueLine = $tokens[$i]['line'];
+                    continue;
+                }
+
+                if ($tokens[$i]['code'] === T_COMMA) {
+                    $nextComma = $i;
+                    break;
+                }
+            }//end for
+
+            if ($idx !== count($indices) - 1 && ($nextComma === false/* || ($tokens[$nextComma]['line'] !== $valueLine)*/)) {
+                $error = 'Each line in an array declaration must end in a comma';
+                $fix   = $phpcsFile->addFixableError($error, $index['value'], 'NoComma');
+
+                if ($fix === true) {
+                    // Find the end of the line and put a comma there.
+                    for ($i = ($index['value'] + 1); $i < $phpcsFile->numTokens; $i++) {
+                        if ($tokens[$i]['line'] > $valueLine) {
+                            break;
+                        }
+                    }
+
+                    $phpcsFile->fixer->addContentBefore(($i - 1), ',');
+                }
+            }
+
+            // Check that there is no space before the comma.
+            if ($nextComma !== false && $tokens[($nextComma - 1)]['code'] === T_WHITESPACE) {
+                $content     = $tokens[($nextComma - 2)]['content'];
+                if ($tokens[($nextComma - 1)]['content'] === $phpcsFile->eolChar) {
+                    $spaceLength = 'newline';
+                } else {
+                    $spaceLength = $tokens[($nextComma - 1)]['length'];
+                }
+                $error       = 'Expected 0 spaces between "%s" and comma; %s found';
+                $data        = array(
+                                $content,
+                                $spaceLength,
+                               );
+
+                $fix = $phpcsFile->addFixableError($error, $nextComma, 'SpaceBeforeComma', $data);
+                if ($fix === true) {
+                    $phpcsFile->fixer->replaceToken(($nextComma - 1), '');
+                }
+            }
+
+            $lastElementLine = $elementEndLine;
             $elementToken    = isset($index['index']) === false ? $index['value'] : $index['index'];
             $elementLine     = $tokens[$elementToken]['line'];
+            $elementEndLine  = $elementLine;
+            if ($nextComma !== false) {
+                $elementEndLine = $tokens[$nextComma]['line'];
+            }
 
             if ($elementLine === $tokens[$stackPtr]['line']) {
                 $error = 'The first element in a multi-value array must be on a new line';
@@ -949,86 +1052,6 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     }
                 }
             }//end if
-
-            // Check each line ends in a comma.
-            $valueLine      = $tokens[$index['value']]['line'];
-            $valueStartLine = $valueLine;
-            $nextComma      = false;
-            for ($i = $index['value']; $i < $arrayEnd; $i++) {
-                // Skip bracketed statements, like function calls.
-                if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS) {
-                    $i         = $tokens[$i]['parenthesis_closer'];
-                    $valueLine = $tokens[$i]['line'];
-                    continue;
-                }
-
-                if ($tokens[$i]['code'] === T_ARRAY) {
-                    $i         = $tokens[$tokens[$i]['parenthesis_opener']]['parenthesis_closer'];
-                    $valueLine = $tokens[$i]['line'];
-                    continue;
-                }
-
-                // Skip to the end of multi-line strings.
-                if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
-                    $i = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
-                    $i--;
-                    $valueLine = $tokens[$i]['line'];
-                    continue;
-                }
-
-                if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
-                    $i         = $tokens[$i]['bracket_closer'];
-                    $valueLine = $tokens[$i]['line'];
-                    continue;
-                }
-
-                if ($tokens[$i]['code'] === T_CLOSURE) {
-                    $i         = $tokens[$i]['scope_closer'];
-                    $valueLine = $tokens[$i]['line'];
-                    continue;
-                }
-
-                if ($tokens[$i]['code'] === T_COMMA) {
-                    $nextComma = $i;
-                    break;
-                }
-            }//end for
-
-            if ($idx !== count($indices) - 1 && ($nextComma === false/* || ($tokens[$nextComma]['line'] !== $valueLine)*/)) {
-                $error = 'Each line in an array declaration must end in a comma';
-                $fix   = $phpcsFile->addFixableError($error, $index['value'], 'NoComma');
-
-                if ($fix === true) {
-                    // Find the end of the line and put a comma there.
-                    for ($i = ($index['value'] + 1); $i < $phpcsFile->numTokens; $i++) {
-                        if ($tokens[$i]['line'] > $valueLine) {
-                            break;
-                        }
-                    }
-
-                    $phpcsFile->fixer->addContentBefore(($i - 1), ',');
-                }
-            }
-
-            // Check that there is no space before the comma.
-            if ($nextComma !== false && $tokens[($nextComma - 1)]['code'] === T_WHITESPACE) {
-                $content     = $tokens[($nextComma - 2)]['content'];
-                if ($tokens[($nextComma - 1)]['content'] === $phpcsFile->eolChar) {
-                    $spaceLength = 'newline';
-                } else {
-                    $spaceLength = $tokens[($nextComma - 1)]['length'];
-                }
-                $error       = 'Expected 0 spaces between "%s" and comma; %s found';
-                $data        = array(
-                                $content,
-                                $spaceLength,
-                               );
-
-                $fix = $phpcsFile->addFixableError($error, $nextComma, 'SpaceBeforeComma', $data);
-                if ($fix === true) {
-                    $phpcsFile->fixer->replaceToken(($nextComma - 1), '');
-                }
-            }
         }//end foreach
 
     }//end processMultiLineArray()
