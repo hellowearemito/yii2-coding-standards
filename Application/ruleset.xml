@@ -32,9 +32,6 @@
 	<!-- Ensure there is no whitespace before a semicolon. -->
 	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
 
-	<!-- Single space after return, new, echo, print, require, inclue -->
-	<rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
-
 	<!-- no space in cast and after -->
 	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
 	<rule ref="Generic.Formatting.NoSpaceAfterCast"/>
