@@ -63,6 +63,9 @@
 		<severity>0</severity>
 	</rule>
 
+	<!-- don't allow print, sizeof, delete, is_null and create_function -->
+	<rule ref="Squiz.PHP.ForbiddenFunctions"/>
+
 	<exclude-pattern>*/i18n/data/*</exclude-pattern>
 	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
 	<exclude-pattern>*/requirements/*</exclude-pattern>
