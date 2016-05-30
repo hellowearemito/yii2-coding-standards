@@ -24,23 +24,38 @@
 		<exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
 	</rule>
 
-	<!-- Property declaration rules. -->
-	<!-- TODO: -->
-
-	<!-- Function call signature. -->
-	<!-- TODO: -->
-
-	<!-- Switch declaration. -->
-	<!-- TODO: -->
-
-	<!-- ... other Yii2 specific rules. -->
+	<!-- [] instead of array() -->
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
-	<!-- <rule ref="Squiz.Arrays.ArrayDeclaration"/> -->
 	<!-- Ensure that there are no spaces around square brackets. -->
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 	<!-- Ensure there is no whitespace before a semicolon. -->
 	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+	<!-- Single space after return, new, echo, print, require, inclue -->
+	<rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+
+	<!-- no space in cast and after -->
+	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
+	<rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+
+	<!-- Operator spacing -->
+	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+	<rule ref="Squiz.WhiteSpace.OperatorSpacing">
+		<properties>
+			<property name="ignoreNewlines" value="true"/>
+		</properties>
+	</rule>
+	<rule ref="Squiz.Strings.ConcatenationSpacing">
+		<properties>
+			<property name="spacing" value="1"/>
+			<property name="ignoreNewlines" value="true"/>
+		</properties>
+	</rule>
+
+	<!-- no space around object operator -->
+	<!-- TODO: allow newline, but require indent -->
+	<!-- <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/> -->
 
 	<exclude-pattern>*/i18n/data/*</exclude-pattern>
 	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
