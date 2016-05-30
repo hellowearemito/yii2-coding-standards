@@ -57,6 +57,15 @@
 	<!-- TODO: allow newline, but require indent -->
 	<!-- <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/> -->
 
+	<!-- no unnecessary brackets around echoed strings -->
+	<rule ref="Squiz.Strings.EchoedStrings"/>
+
+	<!-- only use double quotes if warranted -->
+	<rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+	<rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
+		<severity>0</severity>
+	</rule>
+
 	<exclude-pattern>*/i18n/data/*</exclude-pattern>
 	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
 	<exclude-pattern>*/requirements/*</exclude-pattern>
