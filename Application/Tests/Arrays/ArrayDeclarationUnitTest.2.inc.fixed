@@ -20,7 +20,7 @@ class TestClass
     ];
 
     private $_bad = [
-        'width' => '',
+        'width'  => '',
         'height' => '',
     ];
 
@@ -38,12 +38,12 @@ class TestClass
         ];
 
         $car = [
-            'width' => '',
+            'width'  => '',
             'height' => '',
         ];
 
         $bus = [
-            'width' => '',
+            'width'  => '',
             'height' => '',
         ];
 
@@ -58,11 +58,11 @@ class TestClass
         $inline = ['aaa'];
 
         $bigone = [
-            'name' => 'bigone',
-            'children' => [
-                '1a' => 'child',
-                '11b' => 'child',
-                '111c' => 'child',
+            'name'       => 'bigone',
+            'children'   => [
+                '1a'       => 'child',
+                '11b'      => 'child',
+                '111c'     => 'child',
                 'children' => [
                     'child' => 'aaa',
                 ],
@@ -290,7 +290,7 @@ $weightings = [
 ];
 
 foreach ([
-    'foo' => 'bar',
+    'foo'    => 'bar',
     'foobaz' => 'bazzy',
 ] as $key => $value) {
 }
@@ -361,4 +361,30 @@ $multi = [
         'c' => 'c',
         'd' => 'd',
     ],
+];
+
+$unaligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a' => 'b',
+];
+
+$aligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a'   => 'b',
+];
+
+$aligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a'   => 'b',
+    'c'   => 'd',
+];
+
+$aligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a'   => 'b',
+    'c'   => 'd',
 ];

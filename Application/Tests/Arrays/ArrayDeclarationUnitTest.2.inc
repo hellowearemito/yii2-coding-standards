@@ -349,3 +349,29 @@ $multi = [
         'c' => 'c', 'd' => 'd'
     ]
 ];
+
+$unaligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a' => 'b',
+];
+
+$aligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a'   => 'b',
+];
+
+$aligned = [
+    'foo' => 'bar',
+    'keyless',
+    'a' => 'b',
+    'c'   => 'd',
+];
+
+$aligned = [
+    'foo'    => 'bar',
+    'keyless',
+    'a'      => 'b',
+    'c'          => 'd',
+];

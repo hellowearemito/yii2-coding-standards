@@ -17,11 +17,18 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
     /**
      * Whether to align multi-line arrays.
-     * if null, alignment will not be checked.
+     *
+     * @var bool
+     */
+    public $alignMultiLine = false;
+
+    /**
+     * Whether to allow aligning multi-line arrays.
+     * Ignored if alignMultiLine is true.
      *
      * @var bool|null
      */
-    public $alignMultiLine = false;
+    public $allowAlignedMultiLine = true;
 
     /**
      * Whether to allow multi-line arrays with a single value.
@@ -380,13 +387,14 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             }
         }//end if
 
-        $nextToken  = $stackPtr;
-        //$keyUsed    = false;
-        //$singleUsed = false;
-        $indices    = array();
-        $maxLength  = 0;
-        //$key        = false;
-        $currentEntry = array();
+        $nextToken        = $stackPtr;
+        //$keyUsed      = false;
+        //$singleUsed   = false;
+        $indices          = array();
+        $maxLength        = 0;
+        $maxArrowDistance = 0;
+        //$key          = false;
+        $currentEntry     = array();
 
         if ($tokens[$stackPtr]['code'] === T_ARRAY) {
             $lastToken = $tokens[$stackPtr]['parenthesis_opener'];
@@ -576,8 +584,14 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 $currentEntry['index_end']     = $indexEnd;
 
                 $indexLength = strlen($currentEntry['index_content']);
-                if ($maxLength < $indexLength) {
-                    $maxLength = $indexLength;
+                if ($tokens[$indexEnd]['line'] === $tokens[$nextToken]['line']) {
+                    if ($maxLength < $indexLength) {
+                        $maxLength = $indexLength;
+                    }
+                    $arrowDistance = $tokens[$nextToken]['column'] - (strlen($currentEntry['index_content']) + $tokens[$indexStart]['column']);
+                    if ($maxArrowDistance < $arrowDistance) {
+                        $maxArrowDistance = $arrowDistance;
+                    }
                 }
 
                 // Find the value of this index.
@@ -731,6 +745,17 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 $lastValueLine = $tokens[$value['value']]['line'];
             }//end foreach
         }*/ //end if
+
+        if ($this->alignMultiLine) {
+            $arrayShouldBeAligned = true;
+        } else {
+            // if the array is already not aligned, don't force it to be
+            if ($this->allowAlignedMultiLine && $maxArrowDistance > 1) {
+                $arrayShouldBeAligned = true;
+            } else {
+                $arrayShouldBeAligned = false;
+            }
+        }
 
         if (empty($indices) === false) {
             $count     = count($indices);
@@ -972,15 +997,13 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     continue;
                 }
 
-                if ($this->alignMultiLine === true) {
-                    $arrowStart = ($indicesStart + $maxLength + 1);
-                } elseif ($this->alignMultiLine === false) {
-                    $arrowStart = ((strlen($index['index_content']) + $tokens[$index['index']]['column']) + 1);
+                if ($arrayShouldBeAligned === true) {
+                    $arrowStart  = ($indicesStart + $maxLength + 1);
                 } else {
-                    $arrowStart = null;
+                    $arrowStart = ((strlen($index['index_content']) + $tokens[$index['index']]['column']) + 1);
                 }
 
-                if ($arrowStart !== null && $tokens[$index['arrow']]['column'] !== $arrowStart) {
+                if ($tokens[$index['arrow']]['column'] !== $arrowStart) {
                     $expected = ($arrowStart - (strlen($index['index_content']) + $tokens[$index['index']]['column']));
                     $found    = ($tokens[$index['arrow']]['column'] - (strlen($index['index_content']) + $tokens[$index['index']]['column']));
                     $error    = 'Array double arrow not aligned correctly; expected %s space(s) but found %s';
@@ -1001,18 +1024,13 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                     continue;
                 }
 
-                if ($arrowStart === null) {
-                    $valueStart = null;
-                } else {
-                    $valueStart = ($arrowStart + 3);
-                }
-
+                $valueStart = ($arrowStart + 3);
             } else {
                 $valueStart = $indicesStart;
             }
 
 
-            if ($valueStart !== null && $tokens[$index['value']]['column'] !== $valueStart) {
+            if ($tokens[$index['value']]['column'] !== $valueStart) {
                 if (isset($index['arrow']) === true) {
                     $verb = 'aligned';
                     $expected = ($valueStart - ($tokens[$index['arrow']]['length'] + $tokens[$index['arrow']]['column']));

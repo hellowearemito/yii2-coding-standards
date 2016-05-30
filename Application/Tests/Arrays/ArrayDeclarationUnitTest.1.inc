@@ -357,3 +357,29 @@ $multi = array(
         'c' => 'c', 'd' => 'd'
     )
 );
+
+$unaligned = array(
+    'foo' => 'bar',
+    'keyless',
+    'a' => 'b',
+);
+
+$aligned = array(
+    'foo' => 'bar',
+    'keyless',
+    'a'   => 'b',
+);
+
+$aligned = array(
+    'foo' => 'bar',
+    'keyless',
+    'a' => 'b',
+    'c'   => 'd',
+);
+
+$aligned = array(
+    'foo'    => 'bar',
+    'keyless',
+    'a'      => 'b',
+    'c'          => 'd',
+);
