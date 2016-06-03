@@ -243,7 +243,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
         }//end while
 
         if ($valueCount > 0) {
-            $conditionCheck = $phpcsFile->findPrevious(array(T_OPEN_PARENTHESIS, T_SEMICOLON), ($stackPtr - 1), null, false);
+            // $conditionCheck = $phpcsFile->findPrevious(array(T_OPEN_PARENTHESIS, T_SEMICOLON), ($stackPtr - 1), null, false);
 
             /*if ($conditionCheck === false
                 || $tokens[$conditionCheck]['line'] !== $tokens[$stackPtr]['line']
