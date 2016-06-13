@@ -375,3 +375,8 @@ $aligned = [
     'a'      => 'b',
     'c'          => 'd',
 ];
+
+$dontAlign = [
+    'foo'=>'bar',
+    'bazbaz' => 'qux',
+];

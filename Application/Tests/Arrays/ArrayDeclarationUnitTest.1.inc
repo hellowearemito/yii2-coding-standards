@@ -383,3 +383,8 @@ $aligned = array(
     'a'      => 'b',
     'c'          => 'd',
 );
+
+$dontAlign = array(
+    'foo'=>'bar',
+    'bazbaz' => 'qux',
+);

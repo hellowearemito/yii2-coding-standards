@@ -123,6 +123,7 @@ class Application_Tests_Arrays_ArrayDeclarationUnitTest extends AbstractSniffUni
                     381 => 1,
                     383 => 1,
                     384 => 1,
+                    388 => 1,
                    );
         case 'ArrayDeclarationUnitTest.2.inc':
             return array(
@@ -195,6 +196,7 @@ class Application_Tests_Arrays_ArrayDeclarationUnitTest extends AbstractSniffUni
                     373 => 1,
                     375 => 1,
                     376 => 1,
+                    380 => 1,
                    );
         default:
             return array();
