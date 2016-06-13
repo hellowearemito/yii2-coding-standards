@@ -388,3 +388,7 @@ $dontAlign = array(
     'foo'=>'bar',
     'bazbaz' => 'qux',
 );
+
+$fields = array(
+    'id'    => array('type' => 'INT'),
+    'value' => array('type' => 'VARCHAR'));

@@ -380,3 +380,7 @@ $dontAlign = [
     'foo'=>'bar',
     'bazbaz' => 'qux',
 ];
+
+$fields = [
+    'id'    => ['type' => 'INT'],
+    'value' => ['type' => 'VARCHAR']];
