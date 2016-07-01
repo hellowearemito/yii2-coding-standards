@@ -15,9 +15,4 @@
 		<!-- closing tags are allowed in views even if they only contain php code -->
 		<exclude name="PSR2.Files.ClosingTag.NotAllowed"/>
 	</rule>
-
-	<!-- View files might not contain php code. Disable the warning on installations without short open tags -->
-	<rule ref="Internal.NoCodeFound">
-		<severity>0</severity>
-	</rule>
 </ruleset>
