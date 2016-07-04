@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 function test()
 {
     $a = [];
@@ -384,3 +384,19 @@ $dontAlign = [
 $fields = [
     'id'    => ['type' => 'INT'],
     'value' => ['type' => 'VARCHAR']];
+
+// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
+$foo = [    'a', 'b'     ];
+$foo = ['a', 'b'];
+$foo = [ 'a', 'b' ];
+$bar = [ 'c' ];
+$bar = [      'c'   ];
+$bar = ['c'];
+
+// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 1
+$foo = [    'a', 'b'     ];
+$foo = ['a', 'b'];
+$foo = [ 'a', 'b' ];
+$bar = [ 'c' ];
+$bar = [      'c'   ];
+$bar = ['c'];

@@ -38,6 +38,13 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
     public $allowSingleMultiLine = true;
 
     /**
+     * The number of spaces required after opening bracket and before closing bracket in single-line arrays.
+     *
+     * @var int
+     */
+    public $singleLineBracketSpacing = 0;
+
+    /**
      * Returns an array of tokens this test wants to listen for.
      *
      * @return array
@@ -128,11 +135,10 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
                     $phpcsFile->fixer->endChangeset();
                 }
-
-                // We can return here because there is nothing else to check. All code
-                // below can assume that the array is not empty.
-                return;
             }
+            // We can return here because there is nothing else to check. All code
+            // below can assume that the array is not empty.
+            return;
         }
 
         if ($tokens[$arrayStart]['line'] === $tokens[$arrayEnd]['line']) {
@@ -241,6 +247,56 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 }
             }//end if
         }//end while
+
+        // Check bracket spacing
+        if ($tokens[($arrayStart + 1)]['code'] !== T_WHITESPACE) {
+            $spaceLength = 0;
+            $content     = $tokens[($arrayStart + 1)]['content'];
+        } else {
+            $spaceLength = $tokens[($arrayStart + 1)]['length'];
+            $content     = $tokens[($arrayStart + 2)]['content'];
+        }//end if
+        $expectedSpacing = (int)$this->singleLineBracketSpacing;
+        if ($spaceLength !== $expectedSpacing) {
+            $error = 'Expected %s space(s) between opening bracket and "%s"; %s found';
+            $data  = array(
+                        $expectedSpacing,
+                        $content,
+                        $spaceLength
+                        );
+            $fix = $phpcsFile->addFixableError($error, ($arrayStart + 1), 'SpaceAfterOpeningBracket', $data);
+            if ($fix === true) {
+                if ($spaceLength > 0) {
+                    $phpcsFile->fixer->replaceToken(($arrayStart + 1), str_repeat(' ', $expectedSpacing));
+                } else {
+                    $phpcsFile->fixer->addContent($arrayStart, str_repeat(' ', $expectedSpacing));
+                }//end if
+            }//end if
+        }//end if
+
+        if ($tokens[($arrayEnd - 1)]['code'] !== T_WHITESPACE) {
+            $spaceLength = 0;
+            $content     = $tokens[($arrayEnd - 1)]['content'];
+        } else {
+            $spaceLength = $tokens[($arrayEnd - 1)]['length'];
+            $content     = $tokens[($arrayEnd - 2)]['content'];
+        }//end if
+        if ($spaceLength !== $expectedSpacing) {
+            $error = 'Expected %s space(s) between "%s" and closing bracket; %s found';
+            $data  = array(
+                        $expectedSpacing,
+                        $content,
+                        $spaceLength
+                        );
+            $fix = $phpcsFile->addFixableError($error, ($arrayEnd - 1), 'SpaceBeforeClosingBracket', $data);
+            if ($fix === true) {
+                if ($spaceLength > 0) {
+                    $phpcsFile->fixer->replaceToken(($arrayEnd - 1), str_repeat(' ', $expectedSpacing));
+                } else {
+                    $phpcsFile->fixer->addContent(($arrayEnd - 1), str_repeat(' ', $expectedSpacing));
+                }//end if
+            }
+        }
 
         if ($valueCount > 0) {
             // $conditionCheck = $phpcsFile->findPrevious(array(T_OPEN_PARENTHESIS, T_SEMICOLON), ($stackPtr - 1), null, false);
