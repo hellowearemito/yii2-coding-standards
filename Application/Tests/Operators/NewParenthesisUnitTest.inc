@@ -1,0 +1,41 @@
+<?php
+
+$a = new Foo;
+$a = new Foo();
+$a = new Foo(1, 2);
+
+$b = new \foo\bar\Baz;
+$b = new \foo\bar\Baz();
+$b = new \foo\bar\Baz(1, 2);
+
+$c = new class {
+    public function __construct()
+    {
+    }
+};
+$c = new class() {
+    public function __construct()
+    {
+    }
+};
+$c = new class(1, 2) {
+    public function __construct($one, $two)
+    {
+    }
+};
+
+$d = new class extends \foo\bar\Baz implements \fred\waldo\XyzzyInterface {
+    public function __construct()
+    {
+    }
+};
+$d = new class() extends \foo\bar\Baz implements \fred\waldo\XyzzyInterface {
+    public function __construct()
+    {
+    }
+};
+$d = new class(1, 2) extends \foo\bar\Baz implements \fred\waldo\XyzzyInterface {
+    public function __construct($one, $two)
+    {
+    }
+};
