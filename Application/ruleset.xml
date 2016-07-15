@@ -63,9 +63,6 @@
 		<severity>0</severity>
 	</rule>
 
-	<!-- don't allow print, sizeof, delete, is_null and create_function -->
-	<rule ref="Squiz.PHP.ForbiddenFunctions"/>
-
 	<!-- Checks scope closing brace alignment -->
 	<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
 
