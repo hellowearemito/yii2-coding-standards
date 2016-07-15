@@ -51,6 +51,7 @@ class Application_Tests_Classes_PropertyOrderUnitTest extends AbstractSniffUnitT
                    52  => 1,
                    67  => 1,
                    76  => 1,
+                   115 => 1,
                   );
 
         return $errors;

@@ -15,7 +15,7 @@ class Good
     {
     }
 
-    public function m2()
+    public function m2($a, $b)
     {
         $aa = 42;
         $bb = function () {
@@ -55,7 +55,7 @@ class Bad
     {
     }
 
-    public function m2()
+    public function m2($a, $b)
     {
         $aa = 42;
         $bb = function () {
@@ -80,5 +80,42 @@ class Bad
         if ($this->m4p !== true) {
             $this->m4p = true;
         }
+    }
+}
+
+interface SomeInterface
+{
+    public function foo();
+    public function bar();
+    public function baz();
+}
+
+abstract class AbstractGood
+{
+    public $property1;
+
+    protected $property2;
+
+    abstract protected function foo($a, $b);
+
+    public function bar()
+    {
+        $this->foo($this->property1, $this->property2);
+    }
+}
+
+abstract class AbstractBad
+{
+    public $property1;
+
+    protected $property2;
+
+    abstract protected function foo($a, $b);
+
+    protected $property3;
+
+    public function bar()
+    {
+        $this->foo($this->property1, $this->property2);
     }
 }

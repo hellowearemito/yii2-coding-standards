@@ -73,11 +73,17 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
         $currentScope   = 0;
         for ($i = ($stackPtr + 1); $i < $end; $i++) {
             if ($tokens[$i]['code'] === T_FUNCTION) {
+                $methodsStarted = true;
                 // Continue scanning after end of method body.
                 if (isset($tokens[$i]['scope_closer']) !== false) {
                     $i = $tokens[$i]['scope_closer'];
+                    continue;
                 }
-                $methodsStarted = true;
+                // If the function has no body, continue after parameters.
+                if (isset($tokens[$i]['parenthesis_closer']) !== false) {
+                    $i = $tokens[$i]['parenthesis_closer'];
+                    continue;
+                }
             } else if ($tokens[$i]['code'] === T_VARIABLE) {
                 try {
                     $propProps = $phpcsFile->getMemberProperties($i);
