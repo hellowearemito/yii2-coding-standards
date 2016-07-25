@@ -67,7 +67,7 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
             $error .= 'discouraged';
         }
         if ($pattern === null) {
-            $pattern = $function;
+            $pattern = strtolower($function);
         }
         $replacement = null;
         if ($this->forbiddenFunctions[$pattern] !== null
