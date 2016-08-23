@@ -5,9 +5,6 @@
 	<rule ref="../Application/ruleset.xml">
 		<exclude name="Generic.WhiteSpace.ScopeIndent"/>
 		<exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
-		<!-- disabled because of alternate syntax -->
-		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis"/>
-		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword"/>
 
 		<!-- multiple echos on a single line are allowed -->
 		<exclude name="Generic.Formatting.DisallowMultipleStatements.SameLine"/>
