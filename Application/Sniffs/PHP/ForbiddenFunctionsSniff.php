@@ -41,7 +41,7 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
                                   'sizeof'          => 'count',
                                   'delete'          => 'unset',
                                   'print'           => 'echo',
-                                  'is_null'         => null,
+                                  // 'is_null'         => null,
                                   'create_function' => null,
                                  );
     /**
