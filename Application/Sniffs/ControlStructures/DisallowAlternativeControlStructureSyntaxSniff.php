@@ -99,7 +99,7 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
             $comma = null;
         }
 
-        $fix = $phpcsFile->addFixableError('Alternative control structure syntax is not allowed; found ":", expected "{"', $stackPtr, 'Opener');
+        $fix = $phpcsFile->addFixableError('Alternative control structure syntax is not allowed; found ":", expected "{"', $stackPtr, 'NotAllowed');
         if ($fix === true) {
             $phpcsFile->fixer->beginChangeset();
             $phpcsFile->fixer->replaceToken($opener, '{');
