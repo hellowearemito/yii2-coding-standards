@@ -65,7 +65,7 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
 
         $opener = $tokens[$stackPtr]['scope_opener'];
 
-        if ($tokens[$opener]['type'] !== 'T_COLON') {
+        if ($tokens[$opener]['code'] !== T_COLON) {
             return;
         }
 
