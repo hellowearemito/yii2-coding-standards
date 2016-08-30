@@ -63,6 +63,18 @@ class Application_Tests_ControlStructures_MultiLineControlStructureUnitTest exte
                    160 => 1,
                   );
 
+        if ($testFile === 'MultiLineControlStructureUnitTest.inc') {
+            $errors[219] = 1;
+            $errors[222] = 2;
+            $errors[225] = 1;
+            $errors[226] = 1;
+            $errors[229] = 1;
+            $errors[233] = 1;
+            $errors[236] = 1;
+            $errors[241] = 1;
+            $errors[242] = 1;
+        }
+
         return $errors;
 
     }//end getErrorList()

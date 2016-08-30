@@ -11,12 +11,14 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
                                    'PHP',
                                    'JS',
                                   );
+
     /**
      * The number of spaces code should be indented.
      *
      * @var int
      */
     public $indent = 4;
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -37,6 +39,36 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
                 T_CATCH,
                );
     }//end register()
+
+    /**
+     * Emits error for and fixes closing bracket on same line as condition.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile     The file being scanned.
+     * @param array                $tokens        Token stack of the file.
+     * @param int                  $closeBracket  The position of the closing bracket
+     *                                            in the stack passed in $tokens.
+     *
+     * @return void
+     */
+    private function closingBracketError(PHP_CodeSniffer_File $phpcsFile, $tokens, $closeBracket)
+    {
+        $error = 'Closing parenthesis of a multi-line control structure must be on a new line';
+        $fix   = $phpcsFile->addFixableError($error, $closeBracket, 'CloseBracketNewLine');
+        if ($fix === true) {
+            // Account for a comment at the end of the line.
+            $next = $phpcsFile->findNext(T_WHITESPACE, ($closeBracket + 1), null, true);
+            if ($tokens[$next]['code'] !== T_COMMENT) {
+                $phpcsFile->fixer->addNewlineBefore($closeBracket);
+            } else {
+                $next = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($next + 1), null, true);
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->replaceToken($closeBracket, '');
+                $phpcsFile->fixer->addContentBefore($next, ')');
+                $phpcsFile->fixer->endChangeset();
+            }
+        }
+    }
+
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -52,9 +84,36 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
         if (isset($tokens[$stackPtr]['parenthesis_opener']) === false) {
             return;
         }
-        $openBracket    = $tokens[$stackPtr]['parenthesis_opener'];
-        $closeBracket   = $tokens[$stackPtr]['parenthesis_closer'];
-        if ($tokens[$openBracket]['line'] === $tokens[$closeBracket]['line']) {
+        $openBracket  = $tokens[$stackPtr]['parenthesis_opener'];
+        $closeBracket = $tokens[$stackPtr]['parenthesis_closer'];
+        $targetLine   = $tokens[$openBracket]['line'];
+        for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
+            // Skip bracketed statements, like function calls and arrays.
+            // These don't count as multiple lines even if they are multiline.
+            if ($tokens[$i]['code'] === T_STRING || $tokens[$i]['code'] === T_ARRAY) {
+                $next = $phpcsFile->findNext(T_WHITESPACE, ($i + 1), null, true);
+                if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
+                    // This is a function call
+                    $openingLine = $tokens[$i]['line'];
+                    $i           = $tokens[$next]['parenthesis_closer'];
+                    if ($openingLine === $targetLine) {
+                        $targetLine = $tokens[$i]['line'];
+                    }
+                    continue;
+                }
+            }
+            if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+                // This is a short array
+                $openingLine = $tokens[$i]['line'];
+                $i           = $tokens[$i]['bracket_closer'];
+                if ($openingLine === $targetLine) {
+                    $targetLine = $tokens[$i]['line'];
+                }
+                continue;
+            }
+        }
+
+        if ($targetLine === $tokens[$closeBracket]['line']) {
             return;
         }
         // We need to work out how far indented the statement
@@ -84,27 +143,12 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
         // and start with an operator, unless the line is inside a
         // function call, in which case it is ignored.
         $lastLine = $tokens[$openBracket]['line'];
-        for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
+        for ($i = ($openBracket + 1); $i <= $closeBracket; $i++) {
             if ($tokens[$i]['line'] !== $lastLine) {
                 if ($tokens[$i]['line'] === $tokens[$closeBracket]['line']) {
                     $next = $phpcsFile->findNext(T_WHITESPACE, $i, null, true);
                     if ($next !== $closeBracket) {
-                        // Closing bracket is on the same line as a condition.
-                        $error = 'Closing parenthesis of a multi-line control structure must be on a new line';
-                        $fix   = $phpcsFile->addFixableError($error, $closeBracket, 'CloseBracketNewLine');
-                        if ($fix === true) {
-                            // Account for a comment at the end of the line.
-                            $next = $phpcsFile->findNext(T_WHITESPACE, ($closeBracket + 1), null, true);
-                            if ($tokens[$next]['code'] !== T_COMMENT) {
-                                $phpcsFile->fixer->addNewlineBefore($closeBracket);
-                            } else {
-                                $next = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($next + 1), null, true);
-                                $phpcsFile->fixer->beginChangeset();
-                                $phpcsFile->fixer->replaceToken($closeBracket, '');
-                                $phpcsFile->fixer->addContentBefore($next, ')');
-                                $phpcsFile->fixer->endChangeset();
-                            }
-                        }
+                        $this->closingBracketError($phpcsFile, $tokens, $closeBracket);
                         $expectedIndent = ($statementIndent + $this->indent);
                     } else {
                         // Closing brace needs to be indented to the same level
@@ -162,16 +206,33 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
                 }*///end if
                 $lastLine = $tokens[$i]['line'];
             }//end if
-            if ($tokens[$i]['code'] === T_STRING) {
+            $jumped = false;
+            if ($tokens[$i]['code'] === T_STRING || $tokens[$i]['code'] === T_ARRAY) {
                 $next = $phpcsFile->findNext(T_WHITESPACE, ($i + 1), null, true);
                 if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
-                    // This is a function call, so skip to the end as they
+                    // This is a function call or array, so skip to the end as they
                     // have their own indentation rules.
-                    $i        = $tokens[$next]['parenthesis_closer'];
+                    $i = $tokens[$next]['parenthesis_closer'];
+                    if ($lastLine !== $tokens[$i]['line']) {
+                        $jumped = true;
+                    }
                     $lastLine = $tokens[$i]['line'];
-                    continue;
                 }
+            } else if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+                // This is a short array, so skip to the end as they
+                // have their own indentation rules.
+                $i = $tokens[$i]['bracket_closer'];
+                if ($lastLine !== $tokens[$i]['line']) {
+                    $jumped = true;
+                }
+                $lastLine = $tokens[$i]['line'];
             }
+
+            // If we jumped over a multiline function or array, we need to check if the closing bracket is on the same line.
+            if ($jumped && $lastLine === $tokens[$closeBracket]['line']) {
+                $this->closingBracketError($phpcsFile, $tokens, $closeBracket);
+            }
+
         }//end for
     }//end process()
 }//end class

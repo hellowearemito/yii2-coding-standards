@@ -188,3 +188,74 @@ if (
         ?>
     <?php endif; ?>
 <?php endforeach; ?>
+
+<?php
+
+// These should be considered single-line
+if (array_key_exists($key, [
+    'a' => 1,
+    'b' => 2,
+])) {
+    return false;
+}
+
+if ($arr === [
+    'a' => 1,
+    'b' => 2,
+]) {
+    return false;
+}
+
+if ($arr === array(
+    'a' => 1,
+    'b' => 2,
+)) {
+    return false;
+}
+
+if ($arr === [
+    'a' => 1,
+    'b' => 2,
+] && array_key_exists($key, [
+    'a' => 1,
+    'b' => 2,
+])) {
+    return false;
+}
+
+// But these should not
+if (
+    (
+    ($condition1 || $condition2) &&
+    $condition3
+    )
+) {
+}
+
+if (
+    (($condition1 || $condition2) &&
+    $condition3)
+) {
+}
+
+if (
+    $arr === [
+    'a' => 1,
+    'b' => 2,
+] 
+    && array_key_exists($key, [
+    'a' => 1,
+    'b' => 2,
+])
+) {
+    return false;
+}
+
+// test indentation
+    if (
+        (($condition1 || $condition2) &&
+        $condition3)
+    ) {
+        echo 'true';
+    }
+
