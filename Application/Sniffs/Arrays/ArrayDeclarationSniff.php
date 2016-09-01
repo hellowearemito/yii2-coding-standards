@@ -141,7 +141,35 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             return;
         }
 
-        if ($tokens[$arrayStart]['line'] === $tokens[$arrayEnd]['line']) {
+        $targetLine = $tokens[$arrayStart]['line'];
+        for ($i = ($arrayStart + 1); $i < $arrayEnd; $i++) {
+            // Skip bracketed statements, like function calls.
+            if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS) {
+                $openingLine = $tokens[$i]['line'];
+                $i           = $tokens[$i]['parenthesis_closer'];
+            } else if ($tokens[$i]['code'] === T_ARRAY) {
+                $openingLine = $tokens[$i]['line'];
+                $i           = $tokens[$tokens[$i]['parenthesis_opener']]['parenthesis_closer'];
+            } else if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
+                // Skip to the end of multi-line strings.
+                $openingLine = $tokens[$i]['line'];
+                $i           = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
+                $i--;
+            } else if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+                $openingLine = $tokens[$i]['line'];
+                $i           = $tokens[$i]['bracket_closer'];
+            } else if ($tokens[$i]['code'] === T_CLOSURE) {
+                $openingLine = $tokens[$i]['line'];
+                $i           = $tokens[$i]['scope_closer'];
+            } else {
+                continue;
+            }
+            if ($openingLine === $targetLine) {
+                $targetLine = $tokens[$i]['line'];
+            }
+        }
+
+        if ($targetLine === $tokens[$arrayEnd]['line']) {
             $this->processSingleLineArray($phpcsFile, $stackPtr, $arrayStart, $arrayEnd);
         } else {
             $this->processMultiLineArray($phpcsFile, $stackPtr, $arrayStart, $arrayEnd);
@@ -173,6 +201,27 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             // Skip bracketed statements, like function calls.
             if ($tokens[$i]['code'] === T_OPEN_PARENTHESIS) {
                 $i = $tokens[$i]['parenthesis_closer'];
+                continue;
+            }
+            if ($tokens[$i]['code'] === T_ARRAY) {
+                $i         = $tokens[$tokens[$i]['parenthesis_opener']]['parenthesis_closer'];
+                continue;
+            }
+
+            // Skip to the end of multi-line strings.
+            if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
+                $i = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
+                $i--;
+                continue;
+            }
+
+            if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+                $i         = $tokens[$i]['bracket_closer'];
+                continue;
+            }
+
+            if ($tokens[$i]['code'] === T_CLOSURE) {
+                $i         = $tokens[$i]['scope_closer'];
                 continue;
             }
 

@@ -414,3 +414,24 @@ $foo = [ 'a', 'b' ];
 $bar = [ 'c' ];
 $bar = [ 'c' ];
 $bar = [ 'c' ];
+
+// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
+$arr = ['a', [
+    'a' => 1,
+    'b' => 2,
+]];
+
+$arr = ['a', foo(
+    'a',
+    'b'
+)];
+
+$arr = ['a', 'b' => function ($a, $b) {
+    return $a + $b;
+}];
+
+$arr = ['a', [
+    'a' => 1,
+    'b' => 2,
+    'c' => 3,
+]];

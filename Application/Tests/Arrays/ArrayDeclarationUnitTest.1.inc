@@ -408,3 +408,23 @@ $foo = array( 'a', 'b' );
 $bar = array( 'c' );
 $bar = array(      'c'   );
 $bar = array('c');
+
+// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
+$arr = array('a', array(
+    'a' => 1,
+    'b' => 2,
+));
+
+$arr = array('a', foo(
+    'a',
+    'b'
+));
+
+$arr = array('a', 'b' => function ($a, $b) {
+    return $a + $b;
+});
+
+$arr = array('a', array(
+    'a' => 1,
+    'b' => 2, 'c' => 3
+));
