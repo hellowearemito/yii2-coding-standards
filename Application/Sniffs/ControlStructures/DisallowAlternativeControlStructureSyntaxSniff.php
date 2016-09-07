@@ -94,7 +94,7 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
             return;
         }
 
-        $comma = $phpcsFile->findNext(T_WHITESPACE, ($closer + 1), null, true);
+        $comma = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($closer + 1), null, true);
         if ($tokens[$comma]['code'] !== T_SEMICOLON) {
             $comma = null;
         }
@@ -110,6 +110,11 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
             }
             if ($comma !== null) {
                 $phpcsFile->fixer->replaceToken($comma, '');
+                // delete space before comma
+                $nonSpace = $phpcsFile->findPrevious(T_WHITESPACE, ($comma - 1), null, true);
+                for ($i = ($comma - 1); $i > $nonSpace; $i--) {
+                    $phpcsFile->fixer->replaceToken($i, '');
+                }
             }
 
             $phpcsFile->fixer->replaceToken($closer, '}');

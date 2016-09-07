@@ -36,3 +36,13 @@ switch ($a) {
         echo 'something else';
         break;
 }
+
+?>
+
+<?php if ($a === true){ ?>
+    a is true
+<?php }elseif ($a === false){ ?>
+    a is false
+<?php }else{ ?>
+    a is something else
+<?php } /* end if */ ?>

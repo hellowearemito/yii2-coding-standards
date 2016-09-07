@@ -50,6 +50,7 @@ class Application_Tests_ControlStructures_DisallowAlternativeControlStructureSyn
                    17 => 1,
                    21 => 1,
                    25 => 1,
+                   42 => 1,
                   );
 
         return $errors;
