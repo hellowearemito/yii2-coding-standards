@@ -11,7 +11,5 @@
 
 		<!-- closing tags are allowed in views even if they only contain php code -->
 		<exclude name="PSR2.Files.ClosingTag.NotAllowed"/>
-
-		<exclude name="Application.ControlStructures.DisallowAlternativeControlStructureSyntax"/>
 	</rule>
 </ruleset>

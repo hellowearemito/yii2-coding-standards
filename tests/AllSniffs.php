@@ -29,6 +29,7 @@ class AllSniffs
             'Application',
             'Others',
             'Views',
+            'ViewsAlternate',
         ];
         $path = dirname(__DIR__);
 
