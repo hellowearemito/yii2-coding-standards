@@ -22,6 +22,15 @@
 
 		<!-- replaced with custom sniff -->
 		<exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
+
+		<!-- replaced by custom sniff -->
+		<exclude name="Squiz.ControlStructures.ControlSignature"/>
+	</rule>
+
+	<rule ref="Application.ControlStructures.ControlSignature">
+		<properties>
+			<property name="requiredSpacesBeforeColon" value="0"/>
+		</properties>
 	</rule>
 
 	<!-- [] instead of array() -->
