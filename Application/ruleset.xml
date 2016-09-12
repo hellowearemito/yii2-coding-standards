@@ -75,6 +75,9 @@
 	<!-- Checks scope closing brace alignment -->
 	<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
 
+	<!-- Don't allow backtick operator -->
+	<rule ref="Generic.PHP.BacktickOperator"/>
+
 	<exclude-pattern>*/i18n/data/*</exclude-pattern>
 	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
 	<exclude-pattern>*/requirements/*</exclude-pattern>
