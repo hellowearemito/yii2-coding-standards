@@ -420,3 +420,27 @@ $arr = ['a', [
     'a' => 1,
     'b' => 2, 'c' => 3
 ]];
+
+$arr = [
+    'a' => <<<EOT
+a
+a
+EOT
+,
+    'b' => <<<EOT
+b
+b
+EOT
+];
+
+$arr = [
+    'a' => <<<'EOT'
+a
+a
+EOT
+,
+    'b' => <<<'EOT'
+b
+b
+EOT
+];

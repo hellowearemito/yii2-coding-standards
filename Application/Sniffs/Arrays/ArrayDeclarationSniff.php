@@ -896,6 +896,8 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             }
         }
 
+        $indicesStart = $arrayIndent + $this->indent + 1;
+
         if (empty($indices) === false) {
             $count     = count($indices);
             $lastIndex = $indices[($count - 1)]['value'];
@@ -911,7 +913,11 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 $error = 'Comma required after last value in array declaration';
                 $fix   = $phpcsFile->addFixableError($error, $trailingContent, 'NoCommaAfterLast');
                 if ($fix === true) {
-                    $phpcsFile->fixer->addContent($trailingContent, ',');
+                    if (in_array($tokens[$trailingContent]['code'], [T_END_NOWDOC, T_END_HEREDOC]) === true) {
+                        $phpcsFile->fixer->addContent($trailingContent, "\n" . str_repeat(' ', ($indicesStart - 1)) . ',');
+                    } else {
+                        $phpcsFile->fixer->addContent($trailingContent, ',');
+                    }
                 }
             } else {
                 $phpcsFile->recordMetric($stackPtr, 'Array end comma', 'yes');
@@ -920,7 +926,6 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
         $numValues = count($indices);
 
-        $indicesStart    = $arrayIndent + $this->indent + 1;
         $elementLine     = $tokens[$stackPtr]['line'];
         $elementEndLine  = $elementLine;
         $lastElementLine = null;
@@ -1006,21 +1011,50 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
             // Check that there is no space before the comma.
             if ($nextComma !== false && $tokens[($nextComma - 1)]['code'] === T_WHITESPACE) {
-                $content     = $tokens[($nextComma - 2)]['content'];
-                if ($tokens[($nextComma - 1)]['content'] === $phpcsFile->eolChar) {
-                    $spaceLength = 'newline';
-                } else {
-                    $spaceLength = $tokens[($nextComma - 1)]['length'];
-                }
-                $error       = 'Expected 0 spaces between "%s" and comma; %s found';
-                $data        = array(
-                                $content,
-                                $spaceLength,
-                               );
+                $prevLastContent = $phpcsFile->findPrevious(
+                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    ($nextComma - 1),
+                    null,
+                    true
+                );
 
-                $fix = $phpcsFile->addFixableError($error, $nextComma, 'SpaceBeforeComma', $data);
-                if ($fix === true) {
-                    $phpcsFile->fixer->replaceToken(($nextComma - 1), '');
+                if (in_array($tokens[$prevLastContent]['code'], [T_END_NOWDOC, T_END_HEREDOC]) === true) {
+                    // comma must be on a new line, but should be indented the same as indices
+                    if ($tokens[$nextComma]['column'] !== $indicesStart) {
+                        $expected = ($indicesStart - 1);
+                        $found    = ($tokens[$nextComma]['column'] - 1);
+                        $error    = 'Comma not indented correctly; expected %s spaces but found %s';
+                        $data     = array(
+                                    $expected,
+                                    $found,
+                                    );
+
+                        $fix = $phpcsFile->addFixableError($error, $nextComma, 'CommaNotAligned', $data);
+                        if ($fix === true) {
+                            if ($found === 0) {
+                                $phpcsFile->fixer->addContent(($nextComma - 1), str_repeat(' ', $expected));
+                            } else {
+                                $phpcsFile->fixer->replaceToken(($nextComma - 1), str_repeat(' ', $expected));
+                            }
+                        }
+                    }
+                } else {
+                    $content     = $tokens[($nextComma - 2)]['content'];
+                    if ($tokens[($nextComma - 1)]['content'] === $phpcsFile->eolChar) {
+                        $spaceLength = 'newline';
+                    } else {
+                        $spaceLength = $tokens[($nextComma - 1)]['length'];
+                    }
+                    $error       = 'Expected 0 spaces between "%s" and comma; %s found';
+                    $data        = array(
+                                    $content,
+                                    $spaceLength,
+                                );
+
+                    $fix = $phpcsFile->addFixableError($error, $nextComma, 'SpaceBeforeComma', $data);
+                    if ($fix === true) {
+                        $phpcsFile->fixer->replaceToken(($nextComma - 1), '');
+                    }
                 }
             }
 

@@ -428,3 +428,27 @@ $arr = array('a', array(
     'a' => 1,
     'b' => 2, 'c' => 3
 ));
+
+$arr = array(
+    'a' => <<<EOT
+a
+a
+EOT
+,
+    'b' => <<<EOT
+b
+b
+EOT
+);
+
+$arr = array(
+    'a' => <<<'EOT'
+a
+a
+EOT
+,
+    'b' => <<<'EOT'
+b
+b
+EOT
+);
