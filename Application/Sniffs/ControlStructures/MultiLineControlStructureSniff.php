@@ -90,7 +90,7 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
         for ($i = ($openBracket + 1); $i < $closeBracket; $i++) {
             // Skip bracketed statements, like function calls and arrays.
             // These don't count as multiple lines even if they are multiline.
-            if ($tokens[$i]['code'] === T_STRING || $tokens[$i]['code'] === T_ARRAY) {
+            if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$functionNameTokens) === true || $tokens[$i]['code'] === T_ARRAY) {
                 $next = $phpcsFile->findNext(T_WHITESPACE, ($i + 1), null, true);
                 if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
                     // This is a function call
@@ -101,8 +101,7 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
                     }
                     continue;
                 }
-            }
-            if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
+            } else if ($tokens[$i]['code'] === T_OPEN_SHORT_ARRAY) {
                 // This is a short array
                 $openingLine = $tokens[$i]['line'];
                 $i           = $tokens[$i]['bracket_closer'];
@@ -207,7 +206,7 @@ class Application_Sniffs_ControlStructures_MultiLineControlStructureSniff implem
                 $lastLine = $tokens[$i]['line'];
             }//end if
             $jumped = false;
-            if ($tokens[$i]['code'] === T_STRING || $tokens[$i]['code'] === T_ARRAY) {
+            if (in_array($tokens[$i]['code'], PHP_CodeSniffer_Tokens::$functionNameTokens) === true || $tokens[$i]['code'] === T_ARRAY) {
                 $next = $phpcsFile->findNext(T_WHITESPACE, ($i + 1), null, true);
                 if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
                     // This is a function call or array, so skip to the end as they

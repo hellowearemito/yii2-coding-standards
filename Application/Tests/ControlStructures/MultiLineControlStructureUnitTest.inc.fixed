@@ -259,3 +259,11 @@ if (
         echo 'true';
     }
 
+// This should also be considered single line
+    if (isset(
+        static::$foo['a'],
+        static::$foo['a']['b'],
+        static::$foo['a']['b']['c']
+    )) {
+        return static::$foo['a']['b']['c'];
+    }
