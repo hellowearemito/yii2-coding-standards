@@ -45,10 +45,13 @@ class Application_Tests_Operators_NewParenthesisUnitTest extends AbstractSniffUn
     public function getErrorList($testFile='NewParenthesisUnitTest.inc')
     {
         $errors = array(
-                   3   => 1,
-                   7   => 1,
-                   11  => 1,
-                   27  => 1,
+                   3  => 1,
+                   7  => 1,
+                   11 => 1,
+                   27 => 1,
+                   43 => 1,
+                   45 => 1,
+                   47 => 1,
                   );
 
         return $errors;

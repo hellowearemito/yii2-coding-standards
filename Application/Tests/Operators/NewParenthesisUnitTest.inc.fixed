@@ -39,3 +39,9 @@ $d = new class(1, 2) extends \foo\bar\Baz implements \fred\waldo\XyzzyInterface 
     {
     }
 };
+
+$e = new $foobar();
+
+foo(new Bar());
+
+$f = new Foo()   ;
