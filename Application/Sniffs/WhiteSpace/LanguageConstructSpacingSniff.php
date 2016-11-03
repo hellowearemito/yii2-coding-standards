@@ -43,10 +43,6 @@ class Application_Sniffs_WhiteSpace_LanguageConstructSpacingSniff implements PHP
                 T_ECHO,
                 T_PRINT,
                 T_RETURN,
-                // T_INCLUDE,
-                // T_INCLUDE_ONCE,
-                // T_REQUIRE,
-                // T_REQUIRE_ONCE,
                 T_NEW,
                );
 

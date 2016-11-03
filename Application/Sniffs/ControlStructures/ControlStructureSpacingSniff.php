@@ -38,6 +38,8 @@ class Application_Sniffs_ControlStructures_ControlStructureSpacingSniff implemen
      * @var int
      */
     public $requiredSpacesBeforeClose = 0;
+
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -57,7 +59,10 @@ class Application_Sniffs_ControlStructures_ControlStructureSpacingSniff implemen
                 T_TRY,
                 T_CATCH,
                );
+
     }//end register()
+
+
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -77,12 +82,14 @@ class Application_Sniffs_ControlStructures_ControlStructureSpacingSniff implemen
         ) {
             return;
         }
+
         $parenOpener    = $tokens[$stackPtr]['parenthesis_opener'];
         $parenCloser    = $tokens[$stackPtr]['parenthesis_closer'];
         $spaceAfterOpen = 0;
         if ($tokens[($parenOpener + 1)]['code'] === T_WHITESPACE) {
             $spaceAfterOpen = strlen(rtrim($tokens[($parenOpener + 1)]['content'], $phpcsFile->eolChar));
         }
+
         $phpcsFile->recordMetric($stackPtr, 'Spaces after control structure open parenthesis', $spaceAfterOpen);
         if ($spaceAfterOpen !== $this->requiredSpacesAfterOpen) {
             $error = 'Expected %s spaces after opening bracket; %s found';
@@ -100,11 +107,13 @@ class Application_Sniffs_ControlStructures_ControlStructureSpacingSniff implemen
                 }
             }
         }
+
         if ($tokens[$parenOpener]['line'] === $tokens[$parenCloser]['line']) {
             $spaceBeforeClose = 0;
             if ($tokens[($parenCloser - 1)]['code'] === T_WHITESPACE) {
                 $spaceBeforeClose = strlen(ltrim($tokens[($parenCloser - 1)]['content'], $phpcsFile->eolChar));
             }
+
             $phpcsFile->recordMetric($stackPtr, 'Spaces before control structure close parenthesis', $spaceBeforeClose);
             if ($spaceBeforeClose !== $this->requiredSpacesBeforeClose) {
                 $error = 'Expected %s spaces before closing bracket; %s found';
@@ -123,5 +132,8 @@ class Application_Sniffs_ControlStructures_ControlStructureSpacingSniff implemen
                 }
             }
         }//end if
+
     }//end process()
+
+
 }//end class

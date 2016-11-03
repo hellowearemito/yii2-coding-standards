@@ -43,6 +43,8 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
      * @var boolean
      */
     public $ignoreNewlines = false;
+
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -60,7 +62,10 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
         return array_unique(
             array_merge($comparison, $operators, $assignment, $inlineIf)
         );
+
     }//end register()
+
+
     /**
      * Processes this sniff, when one of its tokens is encountered.
      *
@@ -90,6 +95,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 }
             }
         }
+
         if ($tokens[$stackPtr]['code'] === T_EQUAL) {
             // Skip for '=&' case.
             if (isset($tokens[($stackPtr + 1)]) === true
@@ -98,6 +104,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 return;
             }
         }
+
         // Skip short ternary such as: "$foo = $bar ?: true;".
         if (($tokens[$stackPtr]['code'] === T_INLINE_THEN
             && $tokens[($stackPtr + 1)]['code'] === T_INLINE_ELSE)
@@ -106,12 +113,14 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
         ) {
                 return;
         }
+
         if ($tokens[$stackPtr]['code'] === T_BITWISE_AND) {
             // If it's not a reference, then we expect one space either side of the
             // bitwise operator.
             if ($phpcsFile->isReference($stackPtr) === true) {
                 return;
             }
+
             // Check there is one space before the & operator.
             if ($tokens[($stackPtr - 1)]['code'] !== T_WHITESPACE) {
                 $error = 'Expected 1 space before "&" operator; 0 found';
@@ -119,6 +128,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 if ($fix === true) {
                     $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
                 }
+
                 $phpcsFile->recordMetric($stackPtr, 'Space before operator', 0);
             } else {
                 if ($tokens[($stackPtr - 2)]['line'] !== $tokens[$stackPtr]['line']) {
@@ -126,6 +136,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 } else {
                     $found = $tokens[($stackPtr - 1)]['length'];
                 }
+
                 $phpcsFile->recordMetric($stackPtr, 'Space before operator', $found);
                 if ($found !== 1
                     && ($found !== 'newline' || $this->ignoreNewlines === false)
@@ -138,6 +149,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                     }
                 }
             }//end if
+
             // Check there is one space after the & operator.
             if ($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE) {
                 $error = 'Expected 1 space after "&" operator; 0 found';
@@ -145,6 +157,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 if ($fix === true) {
                     $phpcsFile->fixer->addContent($stackPtr, ' ');
                 }
+
                 $phpcsFile->recordMetric($stackPtr, 'Space after operator', 0);
             } else {
                 if ($tokens[($stackPtr + 2)]['line'] !== $tokens[$stackPtr]['line']) {
@@ -152,6 +165,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 } else {
                     $found = $tokens[($stackPtr + 1)]['length'];
                 }
+
                 $phpcsFile->recordMetric($stackPtr, 'Space after operator', $found);
                 if ($found !== 1
                     && ($found !== 'newline' || $this->ignoreNewlines === false)
@@ -174,22 +188,27 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 // Just returning a negative value; eg. (return -1).
                 return;
             }
+
             if (isset(PHP_CodeSniffer_Tokens::$operators[$tokens[$prev]['code']]) === true) {
                 // Just trying to operate on a negative value; eg. ($var * -1).
                 return;
             }
+
             if (isset(PHP_CodeSniffer_Tokens::$comparisonTokens[$tokens[$prev]['code']]) === true) {
                 // Just trying to compare a negative value; eg. ($var === -1).
                 return;
             }
+
             if (isset(PHP_CodeSniffer_Tokens::$booleanOperators[$tokens[$prev]['code']]) === true) {
                 // Just trying to compare a negative value; eg. ($var || -1 === $b).
                 return;
             }
+
             if (isset(PHP_CodeSniffer_Tokens::$assignmentTokens[$tokens[$prev]['code']]) === true) {
                 // Just trying to assign a negative value; eg. ($var = -1).
                 return;
             }
+
             // A list of tokens that indicate that the token is not
             // part of an arithmetic operation.
             $invalidTokens = array(
@@ -216,6 +235,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 if ($fix === true) {
                     $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
                 }
+
                 $phpcsFile->recordMetric($stackPtr, 'Space before operator', 0);
             } else if (isset(PHP_CodeSniffer_Tokens::$assignmentTokens[$tokens[$stackPtr]['code']]) === false) {
                 // Don't throw an error for assignments, because other standards allow
@@ -225,6 +245,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 } else {
                     $found = $tokens[($stackPtr - 1)]['length'];
                 }
+
                 $phpcsFile->recordMetric($stackPtr, 'Space before operator', $found);
                 if ($found !== 1
                     && ($found !== 'newline' || $this->ignoreNewlines === false)
@@ -244,6 +265,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                                 $i--;
                             }
                         }
+
                         $phpcsFile->fixer->replaceToken(($stackPtr - 1), ' ');
                         $phpcsFile->fixer->endChangeset();
                     }
@@ -253,12 +275,14 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
         if (isset($tokens[($stackPtr + 1)]) === false) {
             return;
         }
+
         if ($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE) {
             $error = "Expected 1 space after \"$operator\"; 0 found";
             $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpaceAfter');
             if ($fix === true) {
                 $phpcsFile->fixer->addContent($stackPtr, ' ');
             }
+
             $phpcsFile->recordMetric($stackPtr, 'Space after operator', 0);
         } else {
             if (isset($tokens[($stackPtr + 2)]) === true
@@ -268,6 +292,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
             } else {
                 $found = $tokens[($stackPtr + 1)]['length'];
             }
+
             $phpcsFile->recordMetric($stackPtr, 'Space after operator', $found);
             if ($found !== 1
                 && ($found !== 'newline' || $this->ignoreNewlines === false)
@@ -283,5 +308,8 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 }
             }
         }//end if
+
     }//end process()
+
+
 }//end class

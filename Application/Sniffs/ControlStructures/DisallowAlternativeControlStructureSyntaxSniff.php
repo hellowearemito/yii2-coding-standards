@@ -28,6 +28,8 @@
  */
 class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSyntaxSniff implements PHP_CodeSniffer_Sniff
 {
+
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -37,13 +39,12 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
     {
         return array(
                 T_IF,
-                /* T_ELSE,
-                T_ELSEIF, */
                 T_FOREACH,
                 T_WHILE,
                 T_SWITCH,
                 T_FOR,
                );
+
     }//end register()
 
 
@@ -82,14 +83,22 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
                 if (isset($tokens[$closer]['scope_opener']) !== true || isset($tokens[$closer]['scope_closer']) !== true) {
                     return;
                 }
+
                 $elses[] = $closer;
-                $closer = $tokens[$closer]['scope_closer'];
+                $closer  = $tokens[$closer]['scope_closer'];
                 continue;
             }
+
             break;
         }
 
-        $closers = [T_ENDIF, T_ENDFOREACH, T_ENDFOR, T_ENDWHILE, T_ENDSWITCH];
+        $closers = [
+                    T_ENDIF,
+                    T_ENDFOREACH,
+                    T_ENDFOR,
+                    T_ENDWHILE,
+                    T_ENDSWITCH,
+                   ];
         if (in_array($tokens[$closer]['code'], $closers, true) !== true) {
             return;
         }
@@ -108,9 +117,10 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
                 $phpcsFile->fixer->addContentBefore($else, '}');
                 $phpcsFile->fixer->replaceToken($tokens[$else]['scope_opener'], '{');
             }
+
             if ($comma !== null) {
                 $phpcsFile->fixer->replaceToken($comma, '');
-                // delete space before comma
+                // Delete space before comma.
                 $nonSpace = $phpcsFile->findPrevious(T_WHITESPACE, ($comma - 1), null, true);
                 for ($i = ($comma - 1); $i > $nonSpace; $i--) {
                     $phpcsFile->fixer->replaceToken($i, '');
@@ -119,6 +129,9 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
 
             $phpcsFile->fixer->replaceToken($closer, '}');
             $phpcsFile->fixer->endChangeset();
-        }
-    }
-}
+        }//end if
+
+    }//end process()
+
+
+}//end class

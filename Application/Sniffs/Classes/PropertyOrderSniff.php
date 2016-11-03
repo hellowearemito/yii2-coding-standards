@@ -33,9 +33,9 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
      *
      * @var array
      */
-    public $supportedTokenizers = array(
-        'PHP',
-    );
+    public $supportedTokenizers = array('PHP');
+
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -44,11 +44,14 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
     public function register()
     {
         return array(
-            T_CLASS,
-            T_INTERFACE,
-            T_TRAIT,
-        );
-    }
+                T_CLASS,
+                T_INTERFACE,
+                T_TRAIT,
+               );
+
+    }//end register()
+
+
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -62,10 +65,10 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
     {
         $tokens = $phpcsFile->getTokens();
         $scopes = array(
-            'public' => 0,
-            'protected' => 1,
-            'private' => 2,
-        );
+                   'public'    => 0,
+                   'protected' => 1,
+                   'private'   => 2,
+                  );
 
         $scopesFlipped  = array_flip($scopes);
         $end            = $tokens[$stackPtr]['scope_closer'];
@@ -79,6 +82,7 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
                     $i = $tokens[$i]['scope_closer'];
                     continue;
                 }
+
                 // If the function has no body, continue after parameters.
                 if (isset($tokens[$i]['parenthesis_closer']) !== false) {
                     $i = $tokens[$i]['parenthesis_closer'];
@@ -91,11 +95,13 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
                     // Not a class member var.
                     continue;
                 }
+
                 if ($methodsStarted === true && $propProps['scope'] !== 'private') {
                     $error = 'Public and protected properties should be declared before methods.';
                     $phpcsFile->addError($error, $i, 'PropertyAfterMethod');
                     continue;
                 }
+
                 $scope = $scopes[$propProps['scope']];
                 if ($scope < $currentScope) {
                     $error = 'Property order incorrect: %s after %s.';
@@ -109,5 +115,8 @@ class Application_Sniffs_Classes_PropertyOrderSniff implements PHP_CodeSniffer_S
                 }
             }//end if
         }//end for
-    }
-}
+
+    }//end process()
+
+
+}//end class

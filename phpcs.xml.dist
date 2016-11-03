@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+ <description>The coding standard for PHP_CodeSniffer itself.</description>
+
+ <file>Application</file>
+ <file>Others</file>
+ <file>Views</file>
+ <file>ViewsMixed</file>
+ <file>ViewsAlternate</file>
+ <file>tests</file>
+
+ <exclude-pattern>*/Tests/*</exclude-pattern>
+
+ <arg value="np"/>
+
+ <rule ref="PHPCS"/>
+</ruleset>

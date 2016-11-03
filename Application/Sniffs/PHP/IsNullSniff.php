@@ -28,6 +28,8 @@
  */
 class Application_Sniffs_PHP_IsNullSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
 {
+
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -36,7 +38,9 @@ class Application_Sniffs_PHP_IsNullSniff extends Generic_Sniffs_PHP_ForbiddenFun
     public function register()
     {
         return array(T_STRING);
+
     }//end register()
+
 
     /**
      * Processes this test, when one of its tokens is encountered.
@@ -71,7 +75,7 @@ class Application_Sniffs_PHP_IsNullSniff extends Generic_Sniffs_PHP_ForbiddenFun
         $nsToken = null;
 
         if ($tokens[$prevToken]['code'] === T_NS_SEPARATOR) {
-            $nsToken = $prevToken;
+            $nsToken   = $prevToken;
             $prevToken = $phpcsFile->findPrevious(T_WHITESPACE, ($prevToken - 1), null, true);
             if ($tokens[$prevToken]['code'] === T_STRING) {
                 // Not in the global namespace.
@@ -123,11 +127,16 @@ class Application_Sniffs_PHP_IsNullSniff extends Generic_Sniffs_PHP_ForbiddenFun
             if ($negate === true) {
                 $phpcsFile->fixer->replaceToken($prevToken, '');
             }
+
             if ($nsToken !== null) {
                 $phpcsFile->fixer->replaceToken($nsToken, '');
             }
+
             $phpcsFile->fixer->replaceToken($closer, $replacement);
             $phpcsFile->fixer->endChangeset();
         }
+
     }//end process()
+
+
 }//end class

@@ -44,6 +44,8 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
                                   // 'is_null'         => null,
                                   'create_function' => null,
                                  );
+
+
     /**
      * Generates the error or warning for this sniff.
      *
@@ -66,9 +68,11 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
             $type   = 'Discouraged';
             $error .= 'discouraged';
         }
+
         if ($pattern === null) {
             $pattern = strtolower($function);
         }
+
         $replacement = null;
         if ($this->forbiddenFunctions[$pattern] !== null
             && $this->forbiddenFunctions[$pattern] !== 'null'
@@ -78,6 +82,7 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
             $data[]      = $replacement;
             $error      .= '; use %s() instead';
         }
+
         if ($replacement === null) {
             if ($this->error === true) {
                 $phpcsFile->addError($error, $stackPtr, $type, $data);
@@ -90,9 +95,13 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
             } else {
                 $fix = $phpcsFile->addFixableWarning($error, $stackPtr, $type, $data);
             }
+
             if ($fix === true) {
                 $phpcsFile->fixer->replaceToken($stackPtr, $replacement);
             }
         }
+
     }//end addError()
+
+
 }//end class

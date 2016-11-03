@@ -28,6 +28,8 @@
  */
 class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxSniff implements PHP_CodeSniffer_Sniff
 {
+
+
     /**
      * Returns an array of tokens this test wants to listen for.
      *
@@ -37,13 +39,12 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
     {
         return array(
                 T_IF,
-                /* T_ELSE,
-                T_ELSEIF, */
                 T_FOREACH,
                 T_WHILE,
                 T_SWITCH,
                 T_FOR,
                );
+
     }//end register()
 
 
@@ -77,12 +78,12 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
         $elses  = [];
 
         $mapping = [
-            T_IF => 'endif',
-            T_FOREACH => 'endforeach',
-            T_FOR => 'endfor',
-            T_WHILE => 'endwhile',
-            T_SWITCH => 'endswitch',
-        ];
+                    T_IF      => 'endif',
+                    T_FOREACH => 'endforeach',
+                    T_FOR     => 'endfor',
+                    T_WHILE   => 'endwhile',
+                    T_SWITCH  => 'endswitch',
+                   ];
 
         $closeText = $mapping[$tokens[$stackPtr]['code']];
 
@@ -91,6 +92,7 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
             if ($else === false) {
                 break;
             }
+
             if (in_array($tokens[$else]['code'], [T_ELSE, T_ELSEIF], true) === false) {
                 break;
             }
@@ -101,11 +103,11 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
             }
 
             $elses[] = [
-                'opener' => $tokens[$else]['scope_opener'],
-                'closer' => $closer,
-            ];
-            $closer = $tokens[$else]['scope_closer'];
-        }
+                        'opener' => $tokens[$else]['scope_opener'],
+                        'closer' => $closer,
+                       ];
+            $closer  = $tokens[$else]['scope_closer'];
+        }//end while
 
         if ($tokens[$closer]['code'] !== T_CLOSE_CURLY_BRACKET) {
             // Something is wrong.
@@ -125,14 +127,12 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
             foreach ($elses as $else) {
                 $phpcsFile->fixer->replaceToken($else['opener'], ':');
                 $phpcsFile->fixer->replaceToken($else['closer'], '');
-                // delete whitespace after opener
+                // Delete whitespace after opener.
                 $nonSpace = $phpcsFile->findNext(T_WHITESPACE, ($else['closer'] + 1), null, true);
                 for ($i = ($else['closer'] + 1); $i < $nonSpace; $i++) {
                     $phpcsFile->fixer->replaceToken($i, '');
                 }
             }
-
-
 
             if ($comma === null) {
                 $closeText .= ';';
@@ -140,6 +140,9 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
 
             $phpcsFile->fixer->replaceToken($closer, $closeText);
             $phpcsFile->fixer->endChangeset();
-        }
-    }
-}
+        }//end if
+
+    }//end process()
+
+
+}//end class

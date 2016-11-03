@@ -69,7 +69,7 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
     {
         $tokens = $phpcsFile->getTokens();
 
-        $methods = [];
+        $methods    = [];
         $properties = [];
 
         // Find all methods and properties in this class.
@@ -90,19 +90,22 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
                 if ($methodProps['is_static'] !== true) {
                     continue;
                 }
+
                 if (isset($tokens[$methodPtr]['parenthesis_opener']) === false) {
                     // Something is wrong with this method.
                     continue;
                 }
+
                 $name = $phpcsFile->findNext(T_WHITESPACE, ($methodPtr + 1), $tokens[$methodPtr]['parenthesis_opener'], true, null, true);
                 if ($name === false) {
                     // Something is wrong with this method.
                     continue;
                 }
+
                 $methods[$tokens[$name]['content']] = [
-                    'declaration' => $methodPtr,
-                    'properties' => $methodProps,
-                ];
+                                                       'declaration' => $methodPtr,
+                                                       'properties'  => $methodProps,
+                                                      ];
             } else if ($tokens[$i]['code'] === T_VARIABLE) {
                 try {
                     $propProps = $phpcsFile->getMemberProperties($i);
@@ -116,15 +119,15 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
                 }
 
                 $properties[$tokens[$i]['content']] = [
-                    'declaration' => $i,
-                    'properties' => $propProps,
-                ];
-            }
-        }
+                                                       'declaration' => $i,
+                                                       'properties'  => $propProps,
+                                                      ];
+            }//end if
+        }//end for
 
         $calledClassName = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), null, true);
-        $own             = false;
-        $fixStart        = null;
+        $own      = false;
+        $fixStart = null;
         $declarationName = $tokens[$calledClassName]['content'];
         if ($tokens[$calledClassName]['code'] === T_SELF) {
             $own = true;
@@ -134,10 +137,11 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
             // If the class is called with a namespace prefix, build fully qualified
             // namespace calls for both current scope class and requested class.
             if ($tokens[($calledClassName - 1)]['code'] === T_NS_SEPARATOR) {
-                $fullQualifiedClassName  = $this->getNamespaceOfScope($phpcsFile, $currScope);
+                $fullQualifiedClassName = $this->getNamespaceOfScope($phpcsFile, $currScope);
                 if ($fullQualifiedClassName !== '') {
                     $fullQualifiedClassName .= '\\';
                 }
+
                 $fullQualifiedClassName .= $phpcsFile->getDeclarationName($currScope);
                 $fullQualifiedClassName  = '\\'.$fullQualifiedClassName;
                 $declarationName         = $this->getDeclarationNameWithNamespace($tokens, $calledClassName);
@@ -149,7 +153,7 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
                 // Class name is the same as the current class, which is not allowed
                 // except if being used inside a closure.
                 if ($phpcsFile->hasCondition($stackPtr, T_CLOSURE) === false) {
-                    $own = true;
+                    $own      = true;
                     $fixStart = $phpcsFile->findPrevious(array(T_NS_SEPARATOR, T_STRING), $calledClassName, null, true);
                 }
             }//end if
@@ -180,7 +184,8 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
         if ($own === false) {
             return;
         }
-        $nextToken = $phpcsFile->findNext(T_WHITESPACE, $stackPtr + 1, null, true, null, true);
+
+        $nextToken = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true, null, true);
         $name      = $tokens[$nextToken]['content'];
         $reason    = '';
         $expected  = null;
@@ -198,11 +203,12 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
             // Special case for PHP 5.5 class name resolution.
             && strtolower($tokens[$nextToken]['content']) !== 'class'
         ) {
-            // method call or constant
+            // Method call or constant.
             $openBracket = $phpcsFile->findNext(T_WHITESPACE, ($nextToken + 1), null, true, null, true);
             if ($tokens[$openBracket]['code'] !== T_OPEN_PARENTHESIS) {
                 $openBracket = false;
             }
+
             if ($openBracket === false) {
                 // Constants must be accessed using self.
                 $reason   = 'for constant access';
@@ -220,7 +226,10 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
                     $functionName = $phpcsFile->findNext(T_WHITESPACE, ($condition + 1), $tokens[$condition]['parenthesis_opener'], true, null, true);
                     if ($functionName !== false && $tokens[$functionName]['content'] === $name) {
                         // Recursion may use self or static, but default to self to avoid changing meaning.
-                        $expected = [T_SELF, T_STATIC];
+                        $expected = [
+                                     T_SELF,
+                                     T_STATIC,
+                                    ];
                     } else {
                         $reason   = 'for method access';
                         $expected = T_STATIC;
@@ -237,6 +246,7 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
             if (in_array($tokens[$calledClassName]['code'], $expected) === true) {
                 return;
             }
+
             $expected = $expected[0];
         }
 
@@ -251,13 +261,13 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
         ) {
             $error = 'Expected "%s::%s" %s; found "%s::%s"';
             $data  = array(
-                $expectedContent,
-                $name,
-                $reason,
-                $declarationName,
-                $name,
-            );
-            $fix = $phpcsFile->addFixableError($error, $calledClassName, 'Incorrect', $data);
+                      $expectedContent,
+                      $name,
+                      $reason,
+                      $declarationName,
+                      $name,
+                     );
+            $fix   = $phpcsFile->addFixableError($error, $calledClassName, 'Incorrect', $data);
 
             if ($fix === true) {
                 if ($fixStart === null) {
@@ -273,7 +283,9 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
                 }
             }
         }//end if
+
     }//end processTokenWithinScope()
+
 
     /**
      * Returns the declaration names for classes/interfaces/functions with a namespace.
