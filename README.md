@@ -4,6 +4,9 @@ Mito Yii 2 Coding Standards
 This repository contains [Mito](https://mito.hu/)'s coding standards
 for Yii 2 based applications.
 
+[![Build Status](https://travis-ci.org/hellowearemito/yii2-coding-standards.svg?branch=master)](https://travis-ci.org/hellowearemito/yii2-coding-standards)
+[![Coverage Status](https://coveralls.io/repos/github/hellowearemito/yii2-coding-standards/badge.svg?branch=master)](https://coveralls.io/github/hellowearemito/yii2-coding-standards?branch=master)
+
 Getting the code
 ----------------
 
