@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Application">
-	<description>Yii 2 Web Application Framework Coding Standard</description>
+	<description>Mito Yii 2 Web Application Coding Standard</description>
 
 	<rule ref="PSR2">
 		<!-- Property names MUST start with an initial underscore if they are private. -->
 		<exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
 
-		<!-- Opening parenthesis of a multi-line function call must be the last content on the line. -->
-		<!-- Closing parenthesis of a multi-line function call must be on a line by itself. -->
-		<!-- Only one argument is allowed per line in a multi-line function call. -->
-		<!-- <exclude name="PEAR.Functions.FunctionCallSignature"/> -->
-
 		<!-- We don't have line length (line width) limits. -->
 		<exclude name="Generic.Files.LineLength"/>
-
-		<!-- CASE keyword must be indented 4 spaces from SWITCH keyword. -->
-		<!-- <exclude name="PSR2.ControlStructures.SwitchDeclaration"/> -->
 
 		<!-- duplicate, not needed -->
 		<exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpenBrace"/>

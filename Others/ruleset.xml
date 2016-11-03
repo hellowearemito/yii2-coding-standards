@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Others">
-	<description>Yii 2 Web Application Framework Coding Standard</description>
+	<description>Mito Yii 2 Web Application Coding Standard (other files)</description>
 
 	<rule ref="../Application/ruleset.xml">
 		<exclude name="PSR1.Files.SideEffects"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Views">
-	<description>Yii 2 Web Application Framework Coding Standard</description>
+	<description>Mito Yii 2 Web Application Coding Standard (view files with alternate syntax)</description>
 
 	<rule ref="../Views/ruleset.xml">
 		<exclude name="Application.ControlStructures.DisallowAlternativeControlStructureSyntax"/>
