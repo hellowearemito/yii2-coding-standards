@@ -22,7 +22,7 @@ install:
 before_script:
   - |
     if [ $TRAVIS_PHP_VERSION = '5.6' ]; then
-      PHPUNIT_FLAGS="--coverage-xml=_coverage"
+      PHPUNIT_FLAGS="--coverage-clover=_coverage/coverage.xml"
     fi
 script:
   - php ./vendor/bin/phpunit $PHPUNIT_FLAGS
