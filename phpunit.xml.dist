@@ -5,4 +5,13 @@
             <file>tests/AllTests.php</file>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">Application</directory>
+            <directory suffix=".php">Others</directory>
+            <directory suffix=".php">Views</directory>
+            <directory suffix=".php">ViewsAlternate</directory>
+            <directory suffix=".php">ViewsMixed</directory>
+        </whitelist>
+    </filter>
 </phpunit>
