@@ -57,6 +57,9 @@ $ ./vendor/bin/phpcbf --extensions=php --standard=vendor/mito/yii2-coding-standa
 
 **Warning**: always check phpcbf's output and keep backups. If it breaks your code, you get to keep both pieces.
 
+You should also run a syntax check using `php -l` before running phpcbf,
+because some sniffs assume the code is syntactically valid, and may mangle it if it is not.
+
 If you're using PhpStorm you can configure it to use CodeSniffer using Settings → PHP → Code Sniffer.
 The standard can be specified at Inspections → PHP → PHP Code Sniffer validation.
 
