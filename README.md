@@ -41,6 +41,8 @@ The `Views` standards disable some rules that cause problems when mixing php wit
 and therefore cannot fully check view files and cannot fix all problems in them,
 so be careful when using phpcbf with view files.
 
+For a full description of the rules, see [docs/rules.md](docs/rules.md).
+
 ### Using the standards
 
 After CodeSniffer is installed, you can launch it with a custom standard using the following syntax:
