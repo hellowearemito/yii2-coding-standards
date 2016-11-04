@@ -18,22 +18,10 @@ You can get code style definition using one of the following methods.
 $ git clone git://github.com/hellowearemito/yii2-coding-standards.git
 ```
 
-* Install composer:
+* Install using [composer](https://getcomposer.org/download/):
 
 ```
-$ curl -sS https://getcomposer.org/installer | php
-```
-
-Or if your system doesn't have CURL installed:
-
-```
-$ php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-```
-
-* Set up all dependencies declared in `composer.json`:
-
-```
-$ php composer.phar install
+$ composer require mito/yii2-coding-standards:"~2.0.0@beta"
 ```
 
 PHP_Codesniffer
