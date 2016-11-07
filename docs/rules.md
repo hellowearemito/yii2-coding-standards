@@ -14,7 +14,7 @@ Rules
 -----
 
 * Property and method names MUST start with an initial underscore if they are private.
-  * Reason: Consistency with [Yii 2][Yii2].
+  * Reason: Consistency with [Yii 2][Yii2]. Used by Yii's [property feature](http://www.yiiframework.com/doc-2.0/yii-base-object.html) to avoid name clashes.
 
 * Public and protected properties MUST be declared before methods.
   Private properties SHOULD be declared before methods, but MAY be declared directly before the method that uses them.
