@@ -29,7 +29,7 @@ Rules
   * Reason: Using `static` (i.e. [late static binding](http://php.net/manual/en/language.oop5.late-static-bindings.php))
             allows a child class to override the method or the property.
             In the case of constants and private static methods and properties,
-            using `static` would also allow overriding, so self must be used to prevent this.
+            using `static` would also allow overriding, so `self` must be used to prevent this.
 
 * There MUST NOT be a space between the closing parenthesis and the colon in control structures using the alternative syntax.
   * Reason: This is how most people write code and how the examples in the
