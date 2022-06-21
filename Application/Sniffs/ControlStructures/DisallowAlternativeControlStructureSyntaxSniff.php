@@ -1,6 +1,9 @@
 <?php
+
+namespace Mito\Application\Sniffs\ControlStructures;
+
 /**
- * Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSyntaxSniff.
+ * DisallowAlternativeControlStructureSyntaxSniff.
  *
  * PHP version 5
  *
@@ -13,7 +16,7 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 /**
- * Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSyntaxSniff.
+ * DisallowAlternativeControlStructureSyntaxSniff.
  *
  * Verifies that alternative control structure syntax is not used.
  *
@@ -26,7 +29,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSyntaxSniff implements PHP_CodeSniffer_Sniff
+class DisallowAlternativeControlStructureSyntaxSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
 
 
@@ -51,13 +54,13 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token in the
      *                                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         if (isset($tokens[$stackPtr]['scope_opener']) !== true) {
@@ -103,7 +106,7 @@ class Application_Sniffs_ControlStructures_DisallowAlternativeControlStructureSy
             return;
         }
 
-        $comma = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($closer + 1), null, true);
+        $comma = $phpcsFile->findNext(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, ($closer + 1), null, true);
         if ($tokens[$comma]['code'] !== T_SEMICOLON) {
             $comma = null;
         }

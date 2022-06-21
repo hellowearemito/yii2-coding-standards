@@ -1,6 +1,9 @@
 <?php
+
+namespace Mito\Application\Sniffs\PHP;
+
 /**
- * Application_Sniffs_PHP_ForbiddenFunctionsSniff.
+ * ForbiddenFunctionsSniff.
  *
  * PHP version 5
  *
@@ -13,7 +16,7 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 /**
- * Application_Sniffs_PHP_ForbiddenFunctionsSniff.
+ * ForbiddenFunctionsSniff.
  *
  * Discourages the use of alias functions that are kept in PHP for compatibility
  * with older versions. Can be used to forbid the use of any function.
@@ -27,7 +30,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+class ForbiddenFunctionsSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff
 {
     /**
      * A list of forbidden functions with their alternatives.
@@ -49,7 +52,7 @@ class Application_Sniffs_PHP_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_
     /**
      * Generates the error or warning for this sniff.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the forbidden function
      *                                        in the token array.
      * @param string               $function  The name of the forbidden function.

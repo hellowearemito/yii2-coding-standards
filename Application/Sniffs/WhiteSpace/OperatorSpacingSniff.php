@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Sniffs\WhiteSpace;
+
 /**
  * Sniffs_Squiz_WhiteSpace_OperatorSpacingSniff.
  *
@@ -26,7 +29,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_Sniff
+class OperatorSpacingSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     /**
      * A list of tokenizers this sniff supports.
@@ -52,9 +55,9 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
      */
     public function register()
     {
-        $comparison = PHP_CodeSniffer_Tokens::$comparisonTokens;
-        $operators  = PHP_CodeSniffer_Tokens::$operators;
-        $assignment = PHP_CodeSniffer_Tokens::$assignmentTokens;
+        $comparison = \PHP_CodeSniffer\Util\Tokens::$comparisonTokens;
+        $operators  = \PHP_CodeSniffer\Util\Tokens::$operators;
+        $assignment = \PHP_CodeSniffer\Util\Tokens::$assignmentTokens;
         $inlineIf   = array(
                        T_INLINE_THEN,
                        T_INLINE_ELSE,
@@ -69,13 +72,13 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
     /**
      * Processes this sniff, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The current file being checked.
      * @param int                  $stackPtr  The position of the current token in
      *                                        the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         // Skip default values in function declarations.
@@ -189,22 +192,22 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 return;
             }
 
-            if (isset(PHP_CodeSniffer_Tokens::$operators[$tokens[$prev]['code']]) === true) {
+            if (isset(\PHP_CodeSniffer\Util\Tokens::$operators[$tokens[$prev]['code']]) === true) {
                 // Just trying to operate on a negative value; eg. ($var * -1).
                 return;
             }
 
-            if (isset(PHP_CodeSniffer_Tokens::$comparisonTokens[$tokens[$prev]['code']]) === true) {
+            if (isset(\PHP_CodeSniffer\Util\Tokens::$comparisonTokens[$tokens[$prev]['code']]) === true) {
                 // Just trying to compare a negative value; eg. ($var === -1).
                 return;
             }
 
-            if (isset(PHP_CodeSniffer_Tokens::$booleanOperators[$tokens[$prev]['code']]) === true) {
+            if (isset(\PHP_CodeSniffer\Util\Tokens::$booleanOperators[$tokens[$prev]['code']]) === true) {
                 // Just trying to compare a negative value; eg. ($var || -1 === $b).
                 return;
             }
 
-            if (isset(PHP_CodeSniffer_Tokens::$assignmentTokens[$tokens[$prev]['code']]) === true) {
+            if (isset(\PHP_CodeSniffer\Util\Tokens::$assignmentTokens[$tokens[$prev]['code']]) === true) {
                 // Just trying to assign a negative value; eg. ($var = -1).
                 return;
             }
@@ -237,7 +240,7 @@ class Application_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSnif
                 }
 
                 $phpcsFile->recordMetric($stackPtr, 'Space before operator', 0);
-            } else if (isset(PHP_CodeSniffer_Tokens::$assignmentTokens[$tokens[$stackPtr]['code']]) === false) {
+            } else if (isset(\PHP_CodeSniffer\Util\Tokens::$assignmentTokens[$tokens[$stackPtr]['code']]) === false) {
                 // Don't throw an error for assignments, because other standards allow
                 // multiple spaces there to align multiple assignments.
                 if ($tokens[($stackPtr - 2)]['line'] !== $tokens[$stackPtr]['line']) {

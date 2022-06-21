@@ -196,12 +196,12 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     /**
      * Generate a list of test failures for a given sniffed file.
      *
-     * @param PHP_CodeSniffer_File $file The file being tested.
+     * @param \PHP_CodeSniffer\Files\File $file The file being tested.
      *
      * @return array
      * @throws PHP_CodeSniffer_Exception
      */
-    public function generateFailureMessages(PHP_CodeSniffer_File $file)
+    public function generateFailureMessages(\PHP_CodeSniffer\Files\File $file)
     {
         $testFile = $file->getFilename();
 

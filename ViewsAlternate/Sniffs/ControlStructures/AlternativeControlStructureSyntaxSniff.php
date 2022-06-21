@@ -1,6 +1,9 @@
 <?php
+
+namespace Mito\ViewsAlternate\Sniffs\ControlStructures;
+
 /**
- * ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxSniff.
+ * AlternativeControlStructureSyntaxSniff.
  *
  * PHP version 5
  *
@@ -13,7 +16,7 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 /**
- * ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxSniff.
+ * AlternativeControlStructureSyntaxSniff.
  *
  * Verifies that alternative control structure syntax is used.
  *
@@ -26,7 +29,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxSniff implements PHP_CodeSniffer_Sniff
+class AlternativeControlStructureSyntaxSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
 
 
@@ -51,13 +54,13 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token in the
      *                                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         if (isset($tokens[$stackPtr]['scope_opener']) !== true) {
@@ -88,7 +91,7 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
         $closeText = $mapping[$tokens[$stackPtr]['code']];
 
         while (true) {
-            $else = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($closer + 1), null, true);
+            $else = $phpcsFile->findNext(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, ($closer + 1), null, true);
             if ($else === false) {
                 break;
             }
@@ -114,7 +117,7 @@ class ViewsAlternate_Sniffs_ControlStructures_AlternativeControlStructureSyntaxS
             return;
         }
 
-        $comma = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($closer + 1), null, true);
+        $comma = $phpcsFile->findNext(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, ($closer + 1), null, true);
         if ($tokens[$comma]['code'] !== T_SEMICOLON) {
             $comma = null;
         }

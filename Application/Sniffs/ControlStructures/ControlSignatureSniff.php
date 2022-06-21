@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Sniffs\ControlStructures;
+
 /**
  * Verifies that control statements conform to their coding standards.
  *
@@ -23,7 +26,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_ControlStructures_ControlSignatureSniff implements PHP_CodeSniffer_Sniff
+class ControlSignatureSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
 
     /**
@@ -70,13 +73,13 @@ class Application_Sniffs_ControlStructures_ControlSignatureSniff implements PHP_
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token in the
      *                                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -198,7 +201,7 @@ class Application_Sniffs_ControlStructures_ControlSignatureSniff implements PHP_
 
                 // Skip all empty tokens on the same line as the opener.
                 if ($tokens[$next]['line'] === $tokens[$opener]['line']
-                    && (isset(PHP_CodeSniffer_Tokens::$emptyTokens[$code]) === true
+                    && (isset(\PHP_CodeSniffer\Util\Tokens::$emptyTokens[$code]) === true
                     || $code === T_CLOSE_TAG)
                 ) {
                     continue;
@@ -260,7 +263,7 @@ class Application_Sniffs_ControlStructures_ControlSignatureSniff implements PHP_
             || $tokens[$stackPtr]['code'] === T_ELSEIF
             || $tokens[$stackPtr]['code'] === T_CATCH
         ) {
-            $closer = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr - 1), null, true);
+            $closer = $phpcsFile->findPrevious(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, ($stackPtr - 1), null, true);
             if ($closer === false || $tokens[$closer]['code'] !== T_CLOSE_CURLY_BRACKET) {
                 return;
             }

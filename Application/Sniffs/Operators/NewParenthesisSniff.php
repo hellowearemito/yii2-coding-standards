@@ -1,6 +1,9 @@
 <?php
+
+namespace Mito\Application\Sniffs\Operators;
+
 /**
- * Application_Sniffs_Operators_NewParenthesisSniff.
+ * NewParenthesisSniff.
  *
  * PHP version 5
  *
@@ -13,7 +16,7 @@
  */
 
 /**
- * Application_Sniffs_Operators_NewParenthesisSniff
+ * NewParenthesisSniff
  *
  * Verifies that parenthesis is used with the new operator.
  *
@@ -25,7 +28,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_Operators_NewParenthesisSniff implements PHP_CodeSniffer_Sniff
+class NewParenthesisSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     /**
      * A list of tokenizers this sniff supports.
@@ -50,13 +53,13 @@ class Application_Sniffs_Operators_NewParenthesisSniff implements PHP_CodeSniffe
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -83,7 +86,7 @@ class Application_Sniffs_Operators_NewParenthesisSniff implements PHP_CodeSniffe
                           T_CLOSE_TAG,
                          );
             if (in_array($tokens[$insertAfter]['code'], $endTokens) === true) {
-                $insertAfter = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($insertAfter - 1), null, true);
+                $insertAfter = $phpcsFile->findPrevious(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, ($insertAfter - 1), null, true);
             }
         }//end if
 

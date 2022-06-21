@@ -77,7 +77,7 @@ class AllSniffs
         ];
         $path = dirname(__DIR__);
 
-        PHP_CodeSniffer::setConfigData('installed_paths', $path, true);
+        \PHP_CodeSniffer\Config::setConfigData('installed_paths', $path, true);
 
         foreach ($standards as $standard) {
 

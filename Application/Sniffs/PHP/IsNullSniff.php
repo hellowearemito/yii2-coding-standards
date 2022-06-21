@@ -1,6 +1,9 @@
 <?php
+
+namespace Mito\Application\Sniffs\PHP;
+
 /**
- * Application_Sniffs_PHP_IsNullSniff.
+ * IsNullSniff.
  *
  * PHP version 5
  *
@@ -13,7 +16,7 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 /**
- * Application_Sniffs_PHP_IsNullSniff.
+ * IsNullSniff.
  *
  * Discourages the use of is_null.
  *
@@ -26,7 +29,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_PHP_IsNullSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+class IsNullSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\ForbiddenFunctionsSniff
 {
 
 
@@ -45,13 +48,13 @@ class Application_Sniffs_PHP_IsNullSniff extends Generic_Sniffs_PHP_ForbiddenFun
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token in
      *                                        the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 

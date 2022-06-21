@@ -1,6 +1,11 @@
 <?php
+
+namespace Mito\Application\Sniffs\Classes;
+
+use PHP_CodeSniffer\Files\File;
+
 /**
- * Application_Sniffs_Classes_StaticSelfSniff.
+ * StaticSelfSniff.
  *
  * PHP version 5
  *
@@ -12,11 +17,6 @@
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-
-if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false) {
-    $error = 'Class PHP_CodeSniffer_Standards_AbstractScopeSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
 
 /**
  * Tests self member references.
@@ -42,7 +42,7 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standards_AbstractScopeSniff
+class StaticSelfSniff extends \PHP_CodeSniffer\Sniffs\AbstractScopeSniff
 {
 
 
@@ -59,13 +59,13 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
     /**
      * Processes the function tokens within the class.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file where this token was found.
      * @param int                  $stackPtr  The position where the token was found.
      * @param int                  $currScope The current scope opener token.
      *
      * @return void
      */
-    protected function processTokenWithinScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $currScope)
+    protected function processTokenWithinScope(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr, $currScope)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -315,13 +315,13 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
     /**
      * Returns the namespace declaration of a file.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file where this token was found.
      * @param int                  $stackPtr  The position where the search for the
      *                                        namespace declaration will start.
      *
      * @return string
      */
-    protected function getNamespaceOfScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getNamespaceOfScope(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $namespace            = '';
         $namespaceDeclaration = $phpcsFile->findPrevious(T_NAMESPACE, $stackPtr);
@@ -337,6 +337,20 @@ class Application_Sniffs_Classes_StaticSelfSniff extends PHP_CodeSniffer_Standar
         return $namespace;
 
     }//end getNamespaceOfScope()
+
+    /**
+     * Processes the tokens outside the scope.
+     *
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being processed.
+     * @param int                         $stackPtr  The position where this token was
+     *                                               found.
+     *
+     * @return void
+     */
+    protected function processTokenOutsideScope(File $phpcsFile, $stackPtr)
+    {
+
+    }//end processTokenOutsideScope()
 
 
 }//end class

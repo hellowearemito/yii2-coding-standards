@@ -1,6 +1,9 @@
 <?php
+
+namespace Mito\Application\Sniffs\Arrays;
+
 /**
- * Application_Sniffs_Arrays_ArrayDeclarationSniff
+ * ArrayDeclarationSniff
  *
  * PHP version 5
  *
@@ -13,7 +16,7 @@
  */
 
 /**
- * Application_Sniffs_Arrays_ArrayDeclarationSniff
+ * ArrayDeclarationSniff
  *
  * Verifies that arrays conform to the array coding standard.
  *
@@ -25,7 +28,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sniff
+class ArrayDeclarationSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     /**
      * The number of spaces multi-line array elements should be indented.
@@ -82,13 +85,13 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
     /**
      * Processes this sniff, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The current file being checked.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile The current file being checked.
      * @param int                  $stackPtr  The position of the current token in
      *                                        the stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -171,7 +174,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             } else if ($tokens[$i]['code'] === T_ARRAY) {
                 $openingLine = $tokens[$i]['line'];
                 $i           = $tokens[$tokens[$i]['parenthesis_opener']]['parenthesis_closer'];
-            } else if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
+            } else if (isset(\PHP_CodeSniffer\Util\Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
                 // Skip to the end of multi-line strings.
                 $openingLine = $tokens[$i]['line'];
                 $i           = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
@@ -203,7 +206,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
     /**
      * Processes a single-line array definition.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile  The current file being checked.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile  The current file being checked.
      * @param int                  $stackPtr   The position of the current token
      *                                         in the stack passed in $tokens.
      * @param int                  $arrayStart The token that starts the array definition.
@@ -211,7 +214,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
      *
      * @return void
      */
-    public function processSingleLineArray(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $arrayStart, $arrayEnd)
+    public function processSingleLineArray(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr, $arrayStart, $arrayEnd)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -232,7 +235,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             }
 
             // Skip to the end of multi-line strings.
-            if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
+            if (isset(\PHP_CodeSniffer\Util\Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
                 $i = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
                 $i--;
                 continue;
@@ -422,7 +425,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
     /**
      * Processes a multi-line array definition.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile  The current file being checked.
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile  The current file being checked.
      * @param int                  $stackPtr   The position of the current token
      *                                         in the stack passed in $tokens.
      * @param int                  $arrayStart The token that starts the array definition.
@@ -430,7 +433,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
      *
      * @return void
      */
-    public function processMultiLineArray(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $arrayStart, $arrayEnd)
+    public function processMultiLineArray(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr, $arrayStart, $arrayEnd)
     {
         $tokens       = $phpcsFile->getTokens();
         $keywordStart = $tokens[$stackPtr]['column'];
@@ -613,7 +616,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
                 if ($tokens[$lastToken]['code'] !== T_DOUBLE_ARROW) {
                     $valueContent = $phpcsFile->findNext(
-                        PHP_CodeSniffer_Tokens::$emptyTokens,
+                        \PHP_CodeSniffer\Util\Tokens::$emptyTokens,
                         ($lastToken + 1),
                         $nextToken,
                         true
@@ -666,7 +669,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
 
                 // Find the value of this index.
                 $nextContent = $phpcsFile->findNext(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    \PHP_CodeSniffer\Util\Tokens::$emptyTokens,
                     ($nextToken + 1),
                     $arrayEnd,
                     true
@@ -686,7 +689,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             $singleValue = true;
         } else if (count($indices) === 1 && $tokens[$lastToken]['code'] === T_COMMA) {
             // There may be another array value without a comma.
-            $exclude     = PHP_CodeSniffer_Tokens::$emptyTokens;
+            $exclude     = \PHP_CodeSniffer\Util\Tokens::$emptyTokens;
             $exclude[]   = T_COMMA;
             $nextContent = $phpcsFile->findNext($exclude, ($indices[0]['value'] + 1), $arrayEnd, true);
             if ($nextContent === false) {
@@ -743,7 +746,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 $lastComma = $indices[($count - 1)]['comma'];
 
                 $trailingContent = $phpcsFile->findNext(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    \PHP_CodeSniffer\Util\Tokens::$emptyTokens,
                     ($lastComma + 1),
                     $arrayEnd,
                     true
@@ -757,7 +760,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             $lastIndex = $arrayStart;
 
             $trailingContent = $phpcsFile->findNext(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                \PHP_CodeSniffer\Util\Tokens::$emptyTokens,
                 ($arrayStart + 1),
                 $arrayEnd,
                 true
@@ -775,7 +778,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             $lastIndex = $indices[($count - 1)]['value'];
 
             $trailingContent = $phpcsFile->findPrevious(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                \PHP_CodeSniffer\Util\Tokens::$emptyTokens,
                 ($arrayEnd - 1),
                 $lastIndex,
                 true
@@ -831,7 +834,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
                 }
 
                 // Skip to the end of multi-line strings.
-                if (isset(PHP_CodeSniffer_Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
+                if (isset(\PHP_CodeSniffer\Util\Tokens::$stringTokens[$tokens[$i]['code']]) === true) {
                     $i = $phpcsFile->findNext($tokens[$i]['code'], ($i + 1), null, true);
                     $i--;
                     $valueLine = $tokens[$i]['line'];
@@ -875,7 +878,7 @@ class Application_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer
             // Check that there is no space before the comma.
             if ($nextComma !== false && $tokens[($nextComma - 1)]['code'] === T_WHITESPACE) {
                 $prevLastContent = $phpcsFile->findPrevious(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
+                    \PHP_CodeSniffer\Util\Tokens::$emptyTokens,
                     ($nextComma - 1),
                     null,
                     true
