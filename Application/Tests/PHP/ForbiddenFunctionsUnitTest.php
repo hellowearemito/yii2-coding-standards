@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\PHP;
+
 /**
  * Unit test class for the ForbiddenFunctions sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_PHP_ForbiddenFunctionsUnitTest extends AbstractSniffUnitTest
+class ForbiddenFunctionsUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

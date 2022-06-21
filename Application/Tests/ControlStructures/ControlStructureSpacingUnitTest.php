@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\ControlStructures;
+
 /**
  * Unit test class for the FunctionSpacing sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_ControlStructures_ControlStructureSpacingUnitTest extends AbstractSniffUnitTest
+class ControlStructureSpacingUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

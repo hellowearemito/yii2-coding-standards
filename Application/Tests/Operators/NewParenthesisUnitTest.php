@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\Operators;
+
 /**
  * Unit test class for the NewParenthesis sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_Operators_NewParenthesisUnitTest extends AbstractSniffUnitTest
+class NewParenthesisUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\PHP;
+
 /**
  * Unit test class for the IsNull sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_PHP_IsNullUnitTest extends AbstractSniffUnitTest
+class IsNullUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

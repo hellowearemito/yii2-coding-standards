@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\ViewsAlternate\Tests\ControlStructures;
+
 /**
  * Unit test class for the AlternativeControlStructureSyntax sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class ViewsAlternate_Tests_ControlStructures_AlternativeControlStructureSyntaxUnitTest extends AbstractSniffUnitTest
+class AlternativeControlStructureSyntaxUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

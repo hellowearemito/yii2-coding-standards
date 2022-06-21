@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\Arrays;
+
 /**
  * Unit test class for the ArrayDeclaration sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_Arrays_ArrayDeclarationUnitTest extends AbstractSniffUnitTest
+class ArrayDeclarationUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

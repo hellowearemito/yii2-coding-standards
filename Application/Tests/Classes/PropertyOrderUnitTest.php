@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\Classes;
+
 /**
  * Unit test class for the PropertyOrder sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_Classes_PropertyOrderUnitTest extends AbstractSniffUnitTest
+class PropertyOrderUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 

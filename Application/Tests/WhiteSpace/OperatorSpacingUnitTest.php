@@ -1,4 +1,7 @@
 <?php
+
+namespace Mito\Application\Tests\WhiteSpace;
+
 /**
  * Unit test class for the OperatorSpacing sniff.
  *
@@ -28,7 +31,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Application_Tests_WhiteSpace_OperatorSpacingUnitTest extends AbstractSniffUnitTest
+class OperatorSpacingUnitTest extends \PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest
 {
 
 
