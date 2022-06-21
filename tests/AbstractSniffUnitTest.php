@@ -64,7 +64,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         if (self::$phpcs === null) {
-            self::$phpcs = new PHP_CodeSniffer();
+            self::$phpcs = new \PHP_CodeSniffer\Runner();
         }
 
         $class = get_class($this);
