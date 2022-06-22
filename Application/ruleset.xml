@@ -1,78 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Application" namespace="Mito\Application">
-	<description>Mito Yii 2 Web Application Coding Standard</description>
+    <description>Mito Yii 2 Web Application Coding Standard</description>
 
-	<rule ref="PSR2">
-		<!-- Property names MUST start with an initial underscore if they are private. -->
-		<exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
+    <rule ref="PSR12">
+        <!-- We don't have line length (line width) limits. -->
+        <exclude name="Generic.Files.LineLength.TooLong"/>
 
-		<!-- We don't have line length (line width) limits. -->
-		<exclude name="Generic.Files.LineLength"/>
+        <!-- Replaced by custom sniff -->
+        <exclude name="Squiz.ControlStructures.ControlSignature"/>
+    </rule>
 
-		<!-- duplicate, not needed -->
-		<exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpenBrace"/>
+    <!-- [] instead of array() -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
-		<!-- replaced with custom sniff -->
-		<exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
+    <!--
+    Ensure that there are no spaces around square brackets.
 
-		<!-- replaced by custom sniff -->
-		<exclude name="Squiz.ControlStructures.ControlSignature"/>
-	</rule>
+    Good way: $hello['world'];
+    Bad way: $hello[ 'world' ];
+    -->
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 
-	<rule ref="Application.ControlStructures.ControlSignature">
-		<properties>
-			<property name="requiredSpacesBeforeColon" value="0"/>
-		</properties>
-	</rule>
+    <!--
+    Ensure there is no whitespace before a semicolon.
 
-	<!-- [] instead of array() -->
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    Good way: $hello = 'World';
+    Bad way: $hello = 'World' ;
+    -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
 
-	<!-- Ensure that there are no spaces around square brackets. -->
-	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
-	<!-- Ensure there is no whitespace before a semicolon. -->
-	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+    <!--
+    No space in cast and after.
 
-	<!-- no space in cast and after -->
-	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
-	<rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+    Good way: (int)$hello['world'];
+    Bad way: (int) $hello['world'];
+    -->
+    <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
 
-	<!-- Operator spacing -->
-	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
-	<rule ref="Application.WhiteSpace.OperatorSpacing">
-		<properties>
-			<property name="ignoreNewlines" value="true"/>
-		</properties>
-	</rule>
-	<rule ref="Squiz.Strings.ConcatenationSpacing">
-		<properties>
-			<property name="spacing" value="1"/>
-			<property name="ignoreNewlines" value="true"/>
-		</properties>
-	</rule>
+    <!--
+    Operator spacing.
 
-	<!-- no space around object operator -->
-	<!-- TODO: allow newline, but require indent -->
-	<!-- <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/> -->
+    Good way: $a > $b;
+    Bad way: $a>$b;
+    -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
 
-	<!-- no unnecessary brackets around echoed strings -->
-	<rule ref="Squiz.Strings.EchoedStrings"/>
+    <!--
+    Mandatory concatenation spacing.
 
-	<!-- only use double quotes if warranted -->
-	<rule ref="Squiz.Strings.DoubleQuoteUsage"/>
-	<rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
-		<severity>0</severity>
-	</rule>
+    Good way: 'Hello' . 'World';
+    Bad way: 'Hello'.'World';
+    -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
 
-	<!-- Checks scope closing brace alignment -->
-	<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+    <!--
+    No unnecessary brackets around echoed strings.
 
-	<!-- Don't allow backtick operator -->
-	<rule ref="Generic.PHP.BacktickOperator"/>
+    Good way: echo 'hello';
+    Bad way: echo('hello');
+    -->
+    <rule ref="Squiz.Strings.EchoedStrings"/>
 
-	<exclude-pattern>*/i18n/data/*</exclude-pattern>
-	<exclude-pattern>*/views/errorHandler/*</exclude-pattern>
-	<exclude-pattern>*/requirements/*</exclude-pattern>
+    <!-- Do not allow tab between echo, include, include_once, require, require once and related string -->
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing" />
 
-	<exclude-pattern>ProfileTarget.php</exclude-pattern>
+    <!-- Only use double quotes if warranted -->
+    <rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Don't allow backtick operator -->
+    <rule ref="Generic.PHP.BacktickOperator"/>
+
+    <exclude-pattern>*/i18n/data/*</exclude-pattern>
+    <exclude-pattern>*/views/errorHandler/*</exclude-pattern>
+    <exclude-pattern>*/requirements/*</exclude-pattern>
+
+    <exclude-pattern>ProfileTarget.php</exclude-pattern>
 </ruleset>
