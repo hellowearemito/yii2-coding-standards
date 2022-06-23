@@ -81,4 +81,9 @@
 
     <!-- Don't allow backtick operator -->
     <rule ref="Generic.PHP.BacktickOperator"/>
+
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <!-- Allow to use native codeception methods with leading underscore character -->
+        <exclude-pattern>tests/*/*Cest\.php$</exclude-pattern>
+    </rule>
 </ruleset>
