@@ -34,7 +34,7 @@ This repository contains five phpcs standards:
 * `ViewsMixed`: for view files, allows both curly braces and alternate syntax.
 * `Others`: for other files, such as configuration files and migration classes.
 
-These standards are based on PSR2 and Yii 2's coding standard, with some additions and improvements.
+These standards are based on PSR-12, with some additions and improvements.
 
 The `Views` standards disable some rules that cause problems when mixing php with html,
 and therefore cannot fully check view files and cannot fix all problems in them,
