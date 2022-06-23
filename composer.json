@@ -1,7 +1,7 @@
 {
 	"name": "mito/yii2-coding-standards",
-	"description": "Mito Yii 2 coding standards",
-	"keywords": ["yii", "framework", "codesniffer"],
+	"description": "Mito coding standards",
+	"keywords": ["codesniffer", "phpcs", "coding standards"],
 	"homepage": "https://mito.hu/",
 	"license": "BSD-3-Clause",
 	"authors": [
@@ -10,38 +10,12 @@
 			"email": "nikola.kovacs@gmail.com"
 		},
 		{
-			"name": "Qiang Xue",
-			"email": "qiang.xue@gmail.com",
-			"homepage": "http://www.yiiframework.com/",
-			"role": "Founder and project lead"
+			"name": "Albert Borsos",
+			"email": "a.borsos@mito.hu"
 		},
 		{
-			"name": "Alexander Makarov",
-			"email": "sam@rmcreative.ru",
-			"homepage": "http://rmcreative.ru/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Maurizio Domba",
-			"homepage": "http://mdomba.info/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Carsten Brandt",
-			"email": "mail@cebe.cc",
-			"homepage": "http://cebe.cc/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Timur Ruziev",
-			"email": "resurtm@gmail.com",
-			"homepage": "http://resurtm.com/",
-			"role": "Core framework development"
-		},
-		{
-			"name": "Paul Klimov",
-			"email": "klimov.paul@gmail.com",
-			"role": "Core framework development"
+			"name": "Peter Simon",
+			"email": "p.simon@mito.hu"
 		}
 	],
 	"require": {
