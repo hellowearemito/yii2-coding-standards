@@ -13,9 +13,6 @@ interpreted as described in [RFC 2119][].
 Rules
 -----
 
-* Property and method names MUST start with an initial underscore if they are private.
-  * Reason: Consistency with [Yii 2][Yii2]. Used by Yii's [property feature](http://www.yiiframework.com/doc-2.0/yii-base-object.html) to avoid name clashes.
-
 * Public and protected properties MUST be declared before methods.
   Private properties SHOULD be declared before methods, but MAY be declared directly before the method that uses them.
   Properties MUST be declared in visibility order: public before protected before private.
@@ -215,30 +212,6 @@ Rules
 
 * The backtick operator MUST NOT be used.
   * Reason: `shell_exec` is identical and clearer. There should not be two ways to do the same thing.
-
-* There MUST always be an opening and closing parenthesis in a `new` expression, even if there are no arguments.
-  * Reason: Consistency with the case when there are arguments. There should not be two ways to do the same thing.
-  ```php
-  // bad
-  $a = new Foo;
-
-  // bad
-  $c = new class {
-      public function __construct()
-      {
-      }
-  };
-  
-  // good
-  $a = new Foo();
-
-  // good
-  $c = new class() {
-      public function __construct()
-      {
-      }
-  };
-  ```
 
 * `is_null` MUST NOT be used. `=== null` or `!== null` SHOULD be used instead.
   * Reason: `is_null` and `=== null` have the same result. There should not be two ways to do the same thing.
