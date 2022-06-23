@@ -16,7 +16,7 @@ Rules
 * Public and protected properties MUST be declared before methods.
   Private properties SHOULD be declared before methods, but MAY be declared directly before the method that uses them.
   Properties MUST be declared in visibility order: public before protected before private.
-  * Reason: Consistency with [Yii 2][Yii2]. More readable code.
+  * Reason: More readable code.
 
 * Public and protected static methods and properties MUST be accessed using `static`, except in the case of recursion:
   `self` MAY be used to to call the current implementation again instead of the child class's implementation.
@@ -77,7 +77,7 @@ Rules
   
 
 * Arrays MUST use the short array syntax (`[]`).
-  * Reason: Consistency with [Yii 2][Yii2]. Easier to read and write. There should not be two ways to do the same thing.
+  * Reason: Easier to read and write. There should not be two ways to do the same thing.
 
 * Multi-line arrays MUST be declared with a single item on each line, indented once, and with a comma after every item.
   There MUST be at least one space before and exactly one space after the `=>` symbol.
@@ -148,7 +148,7 @@ Rules
 
 * There MUST NOT be a space after the opening square bracket and before the closing square bracket.
   There MUST NOT be a space before the opening square bracket.
-  * Reason: Consistency with [Yii 2][Yii2] array declaration syntax. Space before opening square bracket is confusing.
+  * Reason: Space before opening square bracket is confusing.
 
   ```php
   // bad
