@@ -37,45 +37,6 @@ Rules
   * Reason: There should not be two ways to do the same thing.
   * You may choose a ruleset that requires or forbids alternative syntax for view files.
 
-* Control structures MAY be split into multiple lines.
-  When doing so, there MUST be a newline after the opening parenthesis, each line MUST be indented once,
-  and the closing parenthesis must be on the start of a new line, indented to the same depth as the control structure itself.
-  * Reason: Putting the closing parenthesis on its own line with the opening brace makes it easier to see where the body begins.
-            Putting the conditions into their own, indented block is similar to multi-line function calls in [PSR2][PSR2].
-            PSR2 does not specify how multi-line control structures should look.
-
-  ```php
-  // bad
-  if (
-      ($condition1 || $condition2) &&
-      $condition3) {
-      // if body
-  }
-
-  // bad
-  if (
-  ($condition1 || $condition2) &&
-  $condition3
-  ) {
-      // if body
-  }
-  
-  // bad
-  if (($condition1 || $condition2) &&
-    $condition3) {
-      // if body
-  }
-  
-  // good
-  if (
-      ($condition1 || $condition2) &&
-      $condition3
-  ) {
-      // if body
-  }
-  ```
-  
-
 * Arrays MUST use the short array syntax (`[]`).
   * Reason: Easier to read and write. There should not be two ways to do the same thing.
 
