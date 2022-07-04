@@ -86,4 +86,10 @@
         <!-- Allow to use native codeception methods with leading underscore character -->
         <exclude-pattern>tests/*/*Cest\.php$</exclude-pattern>
     </rule>
+
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
 </ruleset>
