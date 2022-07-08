@@ -139,19 +139,13 @@ Rules
 
 * All binary and ternary (but not unary) operators MUST be preceded and followed by one space.
 
-* There MUST NOT be a space before or after an object operator. A newline is allowed before the operator,
-  but the next line SHOULD be indented.
+* There MUST NOT be a space before or after an object operator.
   ```php
   // bad
   $foo -> bar();
-  $foor->
-    bar();
 
   // good
   $foo->bar();
-  $foo->bar()
-    ->baz()
-    ->qux();
   ```
 
 * Echoed strings MUST NOT be enclosed in parentheses.
