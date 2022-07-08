@@ -151,10 +151,10 @@ Rules
 * Echoed strings MUST NOT be enclosed in parentheses.
   ```php
   // bad
-  echo("foo");
+  echo('foo');
 
   // good
-  echo "foo";
+  echo 'foo';
   ```
 
 * Strings MUST use single quotes unless double quotes are required.
