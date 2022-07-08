@@ -1,5 +1,4 @@
 <?php
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 function test()
 {
     $a = [];
@@ -179,7 +178,7 @@ $listItems[$aliasPath] = [
     'itemContent' => implode('<br/>', $aliases)
 ];
 
-$x = 
+$x =
      [
          $x,
          $y,
@@ -385,7 +384,6 @@ $fields = [
     'id'    => ['type' => 'INT'],
     'value' => ['type' => 'VARCHAR']];
 
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 $foo = [    'a', 'b'     ];
 $foo = ['a', 'b'];
 $foo = [ 'a', 'b' ];
@@ -393,15 +391,6 @@ $bar = [ 'c' ];
 $bar = [      'c'   ];
 $bar = ['c'];
 
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 1
-$foo = [    'a', 'b'     ];
-$foo = ['a', 'b'];
-$foo = [ 'a', 'b' ];
-$bar = [ 'c' ];
-$bar = [      'c'   ];
-$bar = ['c'];
-
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 $arr = ['a', [
     'a' => 1,
     'b' => 2,

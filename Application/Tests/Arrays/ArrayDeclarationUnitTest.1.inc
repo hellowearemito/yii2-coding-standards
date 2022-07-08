@@ -1,5 +1,4 @@
 <?php
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 function test()
 {
     $a = array();
@@ -393,7 +392,6 @@ $fields = array(
     'id'    => array('type' => 'INT'),
     'value' => array('type' => 'VARCHAR'));
 
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 $foo = array(    'a', 'b'     );
 $foo = array('a', 'b');
 $foo = array( 'a', 'b' );
@@ -401,15 +399,6 @@ $bar = array( 'c' );
 $bar = array(      'c'   );
 $bar = array('c');
 
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 1
-$foo = array(    'a', 'b'     );
-$foo = array('a', 'b');
-$foo = array( 'a', 'b' );
-$bar = array( 'c' );
-$bar = array(      'c'   );
-$bar = array('c');
-
-// @codingStandardsChangeSetting Application.Arrays.ArrayDeclaration singleLineBracketSpacing 0
 $arr = array('a', array(
     'a' => 1,
     'b' => 2,
