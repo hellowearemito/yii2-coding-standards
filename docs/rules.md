@@ -1,12 +1,10 @@
 Coding Style Guide
 ==================
 
-This coding style guide extends and expands on [PSR2].
-It also incorporates several rules from the [Yii 2 Core Framework Code Style][Yii2].
+This coding style guide extends and expands on [PSR-12][].
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
-interpreted as described in [RFC 2119][].
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in [RFC 2119][].
 
 [RFC 2119]: http://tools.ietf.org/html/rfc2119
 
@@ -31,7 +29,7 @@ Rules
 * There MUST NOT be a space between the closing parenthesis and the colon in control structures using the alternative syntax.
   * Reason: This is how most people write code and how the examples in the
             [PHP manual](http://php.net/manual/en/control-structures.alternative-syntax.php) look like.
-            [PSR2][PSR2] ignores the alternative syntax, but the PSR2 ruleset in PHPCS enforces one space.
+            [PSR-12][] ignores the alternative syntax, but the PSR-12 ruleset in PHPCS enforces one space.
 
 * Alternative control structure syntax MUST NOT be used, except in view files.
   * Reason: There should not be two ways to do the same thing.
@@ -44,7 +42,7 @@ Rules
   There MUST be at least one space before and exactly one space after the `=>` symbol.
   There MAY be more than one space after the `=>` symbol, but if so, all the `=>` symbols in the array declaration
   must be aligned to the same column.
-  * Reason: Consistency with [PSR-12][PSR-12] multi-line function call style.
+  * Reason: Consistency with [PSR-12][] multi-line function call style.
             Comma after last line leads to cleaner diffs and makes it easier to add items.
             Aligned array values may be easier to read in some cases.
 
@@ -198,8 +196,6 @@ Rules
 References
 ==========
 
-* [Yii 2 Core Framework Code Style][Yii2]
-* [PSR2][PSR2]
+* [PSR-12][PSR-12]
 
-[Yii2]: https://github.com/yiisoft/yii2/blob/master/docs/internals/core-code-style.md
-[PSR2]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md
+[PSR-12]: https://www.php-fig.org/psr/psr-12/
