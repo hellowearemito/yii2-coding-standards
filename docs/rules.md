@@ -128,15 +128,12 @@ Rules
 
 * There MUST NOT be a space before a semicolon.
 
-* There MUST NOT be any whitespace in cast operators.
 * There MUST NOT be a space after a cast operator.
   ```php
   // bad
-  $foo = ( int )$bar;
   $foo = (int) $bar;
 
   // good
-  $foo = (int)$bar;
   $foo = (int)$bar;
   ```
 
