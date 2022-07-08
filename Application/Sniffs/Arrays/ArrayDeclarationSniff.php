@@ -412,6 +412,7 @@ class ArrayDeclarationSniff implements Sniff
         // We need to work out how far indented the array
         // itself is, so we can work out how far to
         // indent the elements.
+        $start = $phpcsFile->findStartOfStatement($stackPtr);
         foreach (array('stackPtr', 'start') as $checkToken) {
             $x = $$checkToken;
             for ($i = ($x - 1); $i >= 0; $i--) {
