@@ -44,8 +44,7 @@ Rules
   There MUST be at least one space before and exactly one space after the `=>` symbol.
   There MAY be more than one space after the `=>` symbol, but if so, all the `=>` symbols in the array declaration
   must be aligned to the same column.
-  Keyless items SHOULD NOT be placed between items with keys, they SHOULD be placed before all items with keys.
-  * Reason: Consistency with [PSR2][PSR2] multi-line function call style.
+  * Reason: Consistency with [PSR-12][PSR-12] multi-line function call style.
             Comma after last line leads to cleaner diffs and makes it easier to add items.
             Aligned array values may be easier to read in some cases.
 
@@ -56,7 +55,16 @@ Rules
       'hello'   => 'world',
       'longkey' => 'value',
   ];
+
   // bad
+  $arr = [
+      'baz',
+      'foo'       => 'bar',
+      'hello'     => 'world',
+      'longkey'   => 'value',
+  ];
+
+  // good
   $arr = [
       'foo'   => 'bar',
       'baz',
