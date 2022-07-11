@@ -6,7 +6,7 @@ This coding style guide extends and expands on [PSR-12][].
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
 "OPTIONAL" in this document are to be interpreted as described in [RFC 2119][].
 
-[RFC 2119]: http://tools.ietf.org/html/rfc2119
+[RFC 2119]: https://datatracker.ietf.org/doc/html/rfc2119
 
 Rules
 -----
@@ -21,14 +21,14 @@ Rules
   Constants MUST be accessed using `self`.
   Private static methods and properties MUST be accessed using `self`.
   A class name MUST NOT be used if it is the same as the current class, except in closures.
-  * Reason: Using `static` (i.e. [late static binding](http://php.net/manual/en/language.oop5.late-static-bindings.php))
+  * Reason: Using `static` (i.e. [late static binding](https://php.net/manual/en/language.oop5.late-static-bindings.php))
             allows a child class to override the method or the property.
             In the case of constants and private static methods and properties,
             using `static` would also allow overriding, so `self` must be used to prevent this.
 
 * There MUST NOT be a space between the closing parenthesis and the colon in control structures using the alternative syntax.
   * Reason: This is how most people write code and how the examples in the
-            [PHP manual](http://php.net/manual/en/control-structures.alternative-syntax.php) look like.
+            [PHP manual](https://php.net/manual/en/control-structures.alternative-syntax.php) look like.
             [PSR-12][] ignores the alternative syntax, but the PSR-12 ruleset in PHPCS enforces one space.
 
 * Alternative control structure syntax MUST NOT be used, except in view files.
