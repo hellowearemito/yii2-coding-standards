@@ -107,7 +107,6 @@ Rules
 * Single-line array declarations MUST NOT have a space after the opening bracket and before the closing bracket.
   There MUST be a single space before and after the `=>` symbol.
   There MUST NOT be a space after the last item.
-  Keyless items SHOULD be placed before all items with keys.
 
   ```php
   $arr = ['foo', 'bar' => 'baz'];
