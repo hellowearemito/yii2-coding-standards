@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit beStrictAboutTestsThatDoNotTestAnything="false" bootstrap="./bootstrap.php">
     <testsuites>
-        <testsuite name="Mito Yii 2 Coding Standards Test Suite">
+        <testsuite name="Mito Coding Standards Test Suite">
             <file>tests/AllTests.php</file>
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">Application</directory>
             <directory suffix=".php">Others</directory>
             <directory suffix=".php">Views</directory>
