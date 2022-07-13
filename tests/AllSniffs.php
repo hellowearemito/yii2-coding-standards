@@ -47,7 +47,7 @@ class AllSniffs
             'Views',
             'ViewsAlternate',
         ];
-        $path = dirname(__DIR__);
+        $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src';
 
         Autoload::addSearchPath($path);
 
