@@ -3,6 +3,7 @@
 namespace Mito\Application\Sniffs\Classes;
 
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Exceptions\RuntimeException;
 
 /**
  * StaticSelfSniff.
@@ -109,7 +110,7 @@ class StaticSelfSniff extends \PHP_CodeSniffer\Sniffs\AbstractScopeSniff
             } else if ($tokens[$i]['code'] === T_VARIABLE) {
                 try {
                     $propProps = $phpcsFile->getMemberProperties($i);
-                } catch (\PHP_CodeSniffer_Exception $e) {
+                } catch (RuntimeException $e) {
                     // Not a class member var.
                     continue;
                 }

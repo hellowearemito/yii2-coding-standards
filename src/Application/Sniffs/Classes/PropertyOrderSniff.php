@@ -2,6 +2,8 @@
 
 namespace Mito\Application\Sniffs\Classes;
 
+use PHP_CodeSniffer\Exceptions\RuntimeException;
+
 /**
  * PropertyOrderSniff.
  *
@@ -94,7 +96,7 @@ class PropertyOrderSniff implements \PHP_CodeSniffer\Sniffs\Sniff
             } else if ($tokens[$i]['code'] === T_VARIABLE) {
                 try {
                     $propProps = $phpcsFile->getMemberProperties($i);
-                } catch (\PHP_CodeSniffer_Exception $e) {
+                } catch (RuntimeException $e) {
                     // Not a class member var.
                     continue;
                 }
