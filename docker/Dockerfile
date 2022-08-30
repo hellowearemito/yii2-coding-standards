@@ -1,4 +1,4 @@
-FROM php:7.4.30-cli-buster
+FROM php:5.6.40-cli-stretch
 WORKDIR /usr/src/app
 
 RUN apt-get update && \
@@ -6,7 +6,7 @@ RUN apt-get update && \
     git \
     unzip
 
-RUN pecl install xdebug
+RUN pecl install xdebug-2.5.5
 
 ADD xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
