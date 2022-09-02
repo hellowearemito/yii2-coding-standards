@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Views">
+    <description>Mito Yii 2 Web Application Coding Standard (view files with braces)</description>
+
+    <rule ref="../Application/ruleset.xml">
+        <exclude name="PSR12.Files.FileHeader.SpacingAfterBlock"/>
+        <exclude name="Generic.WhiteSpace.ScopeIndent"/>
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.Indent"/>
+
+        <!-- multiple echos on a single line are allowed -->
+        <exclude name="Generic.Formatting.DisallowMultipleStatements.SameLine"/>
+
+        <!-- closing tags are allowed in views even if they only contain php code -->
+        <exclude name="PSR2.Files.ClosingTag.NotAllowed"/>
+    </rule>
+</ruleset>

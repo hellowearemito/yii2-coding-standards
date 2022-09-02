@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Application" namespace="Mito\Application">
+    <description>Mito Yii 2 Web Application Coding Standard</description>
+
+    <rule ref="PSR12">
+        <!-- We don't have line length (line width) limits. -->
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+
+        <!-- Replaced by custom sniff -->
+        <exclude name="Squiz.ControlStructures.ControlSignature"/>
+    </rule>
+
+    <!-- [] instead of array() -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <!--
+    Ensure that there are no spaces around square brackets.
+
+    Good way: $hello['world'];
+    Bad way: $hello[ 'world' ];
+    -->
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+
+    <!--
+    Ensure there is no whitespace before a semicolon.
+
+    Good way: $hello = 'World';
+    Bad way: $hello = 'World' ;
+    -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+    <!--
+    No space in cast and after.
+
+    Good way: (int)$hello['world'];
+    Bad way: (int) $hello['world'];
+    -->
+    <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+
+    <!--
+    Operator spacing.
+
+    Good way: $a > $b;
+    Bad way: $a>$b;
+    -->
+    <rule ref="Application.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!--
+    Mandatory concatenation spacing.
+
+    Good way: 'Hello' . 'World';
+    Bad way: 'Hello'.'World';
+    -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!--
+    No unnecessary brackets around echoed strings.
+
+    Good way: echo 'hello';
+    Bad way: echo('hello');
+    -->
+    <rule ref="Squiz.Strings.EchoedStrings"/>
+
+    <!-- Do not allow tab between echo, include, include_once, require, require once and related string -->
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing" />
+
+    <!-- Only use double quotes if warranted -->
+    <rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Don't allow backtick operator -->
+    <rule ref="Generic.PHP.BacktickOperator"/>
+
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <!-- Allow to use native codeception methods with leading underscore character -->
+        <exclude-pattern>tests/*/*Cest\.php$</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+</ruleset>

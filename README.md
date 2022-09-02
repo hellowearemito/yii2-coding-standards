@@ -4,8 +4,7 @@ Mito Yii 2 Coding Standards
 This repository contains [Mito](https://mito.hu/)'s coding standards
 for Yii 2 based applications.
 
-[![Build Status](https://travis-ci.org/hellowearemito/yii2-coding-standards.svg?branch=master)](https://travis-ci.org/hellowearemito/yii2-coding-standards)
-[![Coverage Status](https://coveralls.io/repos/github/hellowearemito/yii2-coding-standards/badge.svg?branch=master)](https://coveralls.io/github/hellowearemito/yii2-coding-standards?branch=master)
+![Code coverage](docs/clover.svg)
 
 Getting the code
 ----------------
@@ -35,7 +34,7 @@ This repository contains five phpcs standards:
 * `ViewsMixed`: for view files, allows both curly braces and alternate syntax.
 * `Others`: for other files, such as configuration files and migration classes.
 
-These standards are based on PSR2 and Yii 2's coding standard, with some additions and improvements.
+These standards are based on PSR-12, with some additions and improvements.
 
 The `Views` standards disable some rules that cause problems when mixing php with html,
 and therefore cannot fully check view files and cannot fix all problems in them,

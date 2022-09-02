@@ -14,4 +14,3 @@ test:
         - docker
     script:
         - ./vendor/bin/phpunit
-
