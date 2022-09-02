@@ -73,7 +73,7 @@ class ForbiddenFunctionsSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\
         }
 
         if ($pattern === null) {
-            $pattern = strtolower($function);
+            $pattern = mb_strtolower($function);
         }
 
         $replacement = null;

@@ -102,17 +102,17 @@ class ControlSignatureSniff implements \PHP_CodeSniffer\Sniffs\Sniff
         // Single space after the keyword.
         if ($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE) {
             $found = 0;
-        } else if (strpos($tokens[($stackPtr + 1)]['content'], $phpcsFile->eolChar) !== false) {
+        } else if (mb_strpos($tokens[($stackPtr + 1)]['content'], $phpcsFile->eolChar) !== false) {
             $found = 'newline';
         } else {
-            $found = strlen($tokens[($stackPtr + 1)]['content']);
+            $found = mb_strlen($tokens[($stackPtr + 1)]['content']);
         }
 
         if ($found !== $expectedSpaces) {
             $error = 'Expected %s space(s) after %s keyword; %s found';
             $data  = array(
                       $expectedSpaces,
-                      strtoupper($tokens[$stackPtr]['content']),
+                      mb_strtoupper($tokens[$stackPtr]['content']),
                       $found,
                      );
 
@@ -140,10 +140,10 @@ class ControlSignatureSniff implements \PHP_CodeSniffer\Sniffs\Sniff
             }
 
             if (trim($content) === '') {
-                if (strpos($content, $phpcsFile->eolChar) !== false) {
+                if (mb_strpos($content, $phpcsFile->eolChar) !== false) {
                     $found = 'newline';
                 } else {
-                    $found = strlen($content);
+                    $found = mb_strlen($content);
                 }
             } else {
                 $found = '"'.str_replace($phpcsFile->eolChar, '\n', $content).'"';
@@ -235,10 +235,10 @@ class ControlSignatureSniff implements \PHP_CodeSniffer\Sniffs\Sniff
             $closer = $tokens[$stackPtr]['parenthesis_closer'];
             $found  = 0;
             if ($tokens[($closer + 1)]['code'] === T_WHITESPACE) {
-                if (strpos($tokens[($closer + 1)]['content'], $phpcsFile->eolChar) !== false) {
+                if (mb_strpos($tokens[($closer + 1)]['content'], $phpcsFile->eolChar) !== false) {
                     $found = 'newline';
                 } else {
-                    $found = strlen($tokens[($closer + 1)]['content']);
+                    $found = mb_strlen($tokens[($closer + 1)]['content']);
                 }
             }
 
@@ -276,10 +276,10 @@ class ControlSignatureSniff implements \PHP_CodeSniffer\Sniffs\Sniff
         if ($tokens[($closer + 1)]['code'] !== T_WHITESPACE) {
             $found = 0;
         } else if ($tokens[($closer + 1)]['content'] !== ' ') {
-            if (strpos($tokens[($closer + 1)]['content'], $phpcsFile->eolChar) !== false) {
+            if (mb_strpos($tokens[($closer + 1)]['content'], $phpcsFile->eolChar) !== false) {
                 $found = 'newline';
             } else {
-                $found = strlen($tokens[($closer + 1)]['content']);
+                $found = mb_strlen($tokens[($closer + 1)]['content']);
             }
         }
 

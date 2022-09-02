@@ -102,7 +102,7 @@ class IsNullSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\Forbidde
             return;
         }
 
-        $function = strtolower($tokens[$stackPtr]['content']);
+        $function = mb_strtolower($tokens[$stackPtr]['content']);
 
         if ($function !== 'is_null') {
             return;

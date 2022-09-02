@@ -161,7 +161,7 @@ class StaticSelfSniff extends \PHP_CodeSniffer\Sniffs\AbstractScopeSniff
         }//end if
 
         if ($tokens[($stackPtr - 1)]['code'] === T_WHITESPACE) {
-            $found = strlen($tokens[($stackPtr - 1)]['content']);
+            $found = mb_strlen($tokens[($stackPtr - 1)]['content']);
             $error = 'Expected 0 spaces before double colon; %s found';
             $data  = array($found);
             $fix   = $phpcsFile->addFixableError($error, $calledClassName, 'SpaceBefore', $data);
@@ -172,7 +172,7 @@ class StaticSelfSniff extends \PHP_CodeSniffer\Sniffs\AbstractScopeSniff
         }
 
         if ($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE) {
-            $found = strlen($tokens[($stackPtr + 1)]['content']);
+            $found = mb_strlen($tokens[($stackPtr + 1)]['content']);
             $error = 'Expected 0 spaces after double colon; %s found';
             $data  = array($found);
             $fix   = $phpcsFile->addFixableError($error, $calledClassName, 'SpaceAfter', $data);
@@ -202,7 +202,7 @@ class StaticSelfSniff extends \PHP_CodeSniffer\Sniffs\AbstractScopeSniff
             }
         } else if ($tokens[$nextToken]['code'] === T_STRING
             // Special case for PHP 5.5 class name resolution.
-            && strtolower($tokens[$nextToken]['content']) !== 'class'
+            && mb_strtolower($tokens[$nextToken]['content']) !== 'class'
         ) {
             // Method call or constant.
             $openBracket = $phpcsFile->findNext(T_WHITESPACE, ($nextToken + 1), null, true, null, true);
@@ -258,7 +258,7 @@ class StaticSelfSniff extends \PHP_CodeSniffer\Sniffs\AbstractScopeSniff
         }
 
         if ($tokens[$calledClassName]['code'] !== $expected
-            || strtolower($declarationName) !== $declarationName
+            || mb_strtolower($declarationName) !== $declarationName
         ) {
             $error = 'Expected "%s::%s" %s; found "%s::%s"';
             $data  = array(

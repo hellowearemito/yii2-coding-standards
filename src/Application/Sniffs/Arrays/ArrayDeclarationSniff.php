@@ -67,8 +67,8 @@ class ArrayDeclarationSniff implements Sniff
             $phpcsFile->recordMetric($stackPtr, 'Short array syntax used', 'no');
 
             // Array keyword should be lower case.
-            if ($tokens[$stackPtr]['content'] !== strtolower($tokens[$stackPtr]['content'])) {
-                if ($tokens[$stackPtr]['content'] === strtoupper($tokens[$stackPtr]['content'])) {
+            if ($tokens[$stackPtr]['content'] !== mb_strtolower($tokens[$stackPtr]['content'])) {
+                if ($tokens[$stackPtr]['content'] === mb_strtoupper($tokens[$stackPtr]['content'])) {
                     $phpcsFile->recordMetric($stackPtr, 'Array keyword case', 'upper');
                 } else {
                     $phpcsFile->recordMetric($stackPtr, 'Array keyword case', 'mixed');
@@ -425,19 +425,19 @@ class ArrayDeclarationSniff implements Sniff
             if ($i <= 0) {
                 $arrayIndent = 0;
             } else if ($tokens[$i]['code'] === T_WHITESPACE) {
-                $arrayIndent = strlen($tokens[$i]['content']);
+                $arrayIndent = mb_strlen($tokens[$i]['content']);
             } else if ($tokens[$i]['code'] === T_CONSTANT_ENCAPSED_STRING) {
                 $arrayIndent = 0;
             } else {
                 $trimmed = ltrim($tokens[$i]['content']);
                 if ($trimmed === '') {
                     if ($tokens[$i]['code'] === T_INLINE_HTML) {
-                        $arrayIndent = strlen($tokens[$i]['content']);
+                        $arrayIndent = mb_strlen($tokens[$i]['content']);
                     } else {
                         $arrayIndent = ($tokens[$i]['column'] - 1);
                     }
                 } else {
-                    $arrayIndent = (strlen($tokens[$i]['content']) - strlen($trimmed));
+                    $arrayIndent = (mb_strlen($tokens[$i]['content']) - mb_strlen($trimmed));
                 }
             }
 
@@ -595,13 +595,13 @@ class ArrayDeclarationSniff implements Sniff
                 $currentEntry['index']     = $indexStart;
                 $currentEntry['index_end'] = $indexEnd;
 
-                $indexLength = strlen($currentEntry['index_content']);
+                $indexLength = mb_strlen($currentEntry['index_content']);
                 if ($tokens[$indexEnd]['line'] === $tokens[$nextToken]['line']) {
                     if ($maxLength < $indexLength) {
                         $maxLength = $indexLength;
                     }
 
-                    $arrowDistance = ($tokens[$nextToken]['column'] - (strlen($currentEntry['index_content']) + $tokens[$indexStart]['column']));
+                    $arrowDistance = ($tokens[$nextToken]['column'] - (mb_strlen($currentEntry['index_content']) + $tokens[$indexStart]['column']));
                     if ($maxArrowDistance < $arrowDistance) {
                         $maxArrowDistance = $arrowDistance;
                     }
@@ -898,12 +898,12 @@ class ArrayDeclarationSniff implements Sniff
                 if ($arrayShouldBeAligned === true) {
                     $arrowStart = ($indicesStart + $maxLength + 1);
                 } else {
-                    $arrowStart = ((strlen($index['index_content']) + $tokens[$index['index']]['column']) + 1);
+                    $arrowStart = ((mb_strlen($index['index_content']) + $tokens[$index['index']]['column']) + 1);
                 }
 
                 if ($tokens[$index['arrow']]['column'] !== $arrowStart) {
-                    $expected = ($arrowStart - (strlen($index['index_content']) + $tokens[$index['index']]['column']));
-                    $found    = ($tokens[$index['arrow']]['column'] - (strlen($index['index_content']) + $tokens[$index['index']]['column']));
+                    $expected = ($arrowStart - (mb_strlen($index['index_content']) + $tokens[$index['index']]['column']));
+                    $found    = ($tokens[$index['arrow']]['column'] - (mb_strlen($index['index_content']) + $tokens[$index['index']]['column']));
                     $error    = 'Array double arrow not aligned correctly; expected %s space(s) but found %s';
                     $data     = array(
                         $expected,
