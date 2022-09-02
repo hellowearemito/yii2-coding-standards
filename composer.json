@@ -1,5 +1,5 @@
 {
-    "name": "mito/yii2-coding-standards",
+    "name": "mito/coding-standards",
     "description": "Mito coding standards",
     "keywords": ["codesniffer", "phpcs", "coding standards"],
     "homepage": "https://mito.hu/",
